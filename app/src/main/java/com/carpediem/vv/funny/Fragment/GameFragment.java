@@ -39,7 +39,7 @@ public class GameFragment extends BaseFragment {
         testVersion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(mActivity,"版本检测",Toast.LENGTH_SHORT).show();
+                Toast.makeText(mActivity,"版本检测gaibian",Toast.LENGTH_SHORT).show();
             }
         });
         return view;
