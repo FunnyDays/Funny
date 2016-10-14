@@ -40,6 +40,8 @@ public class GameFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
                 Toast.makeText(mActivity,"版本检测gaibian",Toast.LENGTH_SHORT).show();
+                Toast.makeText(mActivity,"dierci",Toast.LENGTH_SHORT).show();
+                Toast.makeText(mActivity,"创建分支",Toast.LENGTH_SHORT).show();
             }
         });
         return view;
