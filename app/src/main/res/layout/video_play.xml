@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="?attr/actionBarSize"
+        app:layout_scrollFlags="scroll|enterAlways"
+        app:navigationIcon="?attr/homeAsUpIndicator"
+        app:theme="@style/Theme.AppCompat.NoActionBar"/>
+    <RelativeLayout
+        android:layout_below="@id/toolbar"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="400dp">
+        <SurfaceView
+            android:id="@+id/surfaceView"
+            android:keepScreenOn="true"
+            android:layout_width="match_parent"
+            android:layout_height="400dp"
+            />
+
+        <ImageView
+            android:src="@mipmap/btn_playing_pause"
+            android:id="@+id/image_pre"
+            android:layout_width="match_parent"
+            android:scaleType="center"
+            android:layout_height="400dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true" />
+    </RelativeLayout>
+
+
+    <LinearLayout
+
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:id="@+id/linearLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <Button
+            android:id="@+id/play"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:text="播放" />
+
+        <Button
+            android:visibility="gone"
+            android:id="@+id/stop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="停止" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_height="48dp"
+        android:orientation="horizontal"
+        android:background="@android:color/white"
+       >
+        <EditText
+            android:id="@+id/et_comment"
+            android:layout_width="0dp"
+            android:layout_weight="4"
+            android:layout_height="match_parent"
+            android:hint="评论"
+            android:textColor="@android:color/black" />
+        <Button
+            android:id="@+id/bt_commit"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:theme="@style/MyButton"
+            android:layout_height="match_parent"
+            android:textSize="17sp"
+            android:text="发送"/>
+    </LinearLayout>
+</RelativeLayout>

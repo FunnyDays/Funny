@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="6dp"
+
+
+    android:layout_marginTop="2dp"
+
+    app:elevation="4dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+
+            android:padding="10dp">
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@mipmap/book" />
+
+            <TextView
+                android:id="@+id/text_category"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:paddingLeft="5dp"
+                android:text="测试测试测试测试测试测试" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="200dp"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp">
+                <ImageView
+                    android:id="@+id/book_one"
+                    android:layout_width="match_parent"
+                    android:layout_height="180dp"
+                    android:src="@mipmap/bookbg" />
+                <TextView
+                    android:layout_gravity="center"
+                    android:id="@+id/book_one_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="20dp"
+                    android:text="one" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="200dp"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp">
+                <ImageView
+                    android:id="@+id/book_two"
+                    android:layout_width="match_parent"
+                    android:layout_height="180dp"
+                    android:src="@mipmap/bookbg" />
+                <TextView
+                    android:layout_gravity="center"
+                    android:id="@+id/book_two_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="20dp"
+                    android:text="two" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="200dp"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp">
+                <ImageView
+                    android:id="@+id/book_three"
+                    android:layout_width="match_parent"
+                    android:layout_height="180dp"
+                    android:src="@mipmap/bookbg" />
+                <TextView
+                    android:layout_gravity="center"
+                    android:id="@+id/book_three_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="20dp"
+                    android:text="three" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/button_more"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/MyButton"
+            android:text="查看" />
+    </LinearLayout>
+</android.support.v7.widget.CardView>
