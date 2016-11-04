@@ -20,7 +20,9 @@ import android.widget.Toast;
 
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
+import com.carpediem.vv.funny.Adapter.MainContentVPAdapter;
 import com.carpediem.vv.funny.Base.BaseFragment;
+import com.carpediem.vv.funny.Fragment.AllTabFragment;
 import com.carpediem.vv.funny.Fragment.BooksFragment;
 import com.carpediem.vv.funny.Fragment.DailyFragment;
 import com.carpediem.vv.funny.Fragment.GameFragment;
@@ -30,6 +32,7 @@ import com.carpediem.vv.funny.R;
 import com.carpediem.vv.funny.Utils.CacheUtils;
 import com.carpediem.vv.funny.Utils.PermissionsChecker;
 import com.carpediem.vv.funny.bean.Userbean.MyUser;
+import com.carpediem.vv.funny.weight.CustomViewPager;
 
 import java.util.ArrayList;
 
@@ -57,10 +60,12 @@ public class MainActivity extends AppCompatActivity {
      */
 
     private FragmentManager supportFragmentManager  = getSupportFragmentManager();
-    private ArrayList<BaseFragment> fragments = new ArrayList<>();
+    private ArrayList<BaseFragment> fragments;
     private FragmentTransaction fragmentTransaction;
     public static BottomNavigationBar bottomNavigationBar;
     private Toolbar toolbar;
+    private CustomViewPager customViewPager;
+    private MainContentVPAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -136,9 +141,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void init() {
+        getFragments();
 
+        customViewPager = (CustomViewPager) findViewById(R.id.main_fragment);
+        customViewPager.setAdapter(adapter);
+        customViewPager.setOffscreenPageLimit(3);//设置缓存页数，缓存所有fragment
         bottomNavigationBar = (BottomNavigationBar) findViewById(R.id.bottom_navigation_bar);
-
         bottomNavigationBar
                 .addItem(new BottomNavigationItem(R.drawable.ic_home_white_24dp, "每日").setActiveColorResource(R.color.colorPrimary))
                 .addItem(new BottomNavigationItem(R.drawable.ic_book_white_24dp, "书籍").setActiveColorResource(R.color.colorPrimary))
@@ -156,28 +164,33 @@ public class MainActivity extends AppCompatActivity {
                 Log.i("tab", "onTabSelected position:" + position);
                switch (position) {
                     case 0:
-                        fragmentTransaction = supportFragmentManager.beginTransaction();
-                        fragmentTransaction.replace(R.id.main_fragment,fragments.get(position), "daily_fragment").commit();
+                        customViewPager.setCurrentItem(0);
+                      /*  fragmentTransaction = supportFragmentManager.beginTransaction();
+                        fragmentTransaction.replace(R.id.main_fragment,fragments.get(position), "daily_fragment").commit();*/
                        // toolbar.setVisibility(View.VISIBLE);
                         break;
                     case 1:
-                        fragmentTransaction = supportFragmentManager.beginTransaction();
-                        fragmentTransaction.replace(R.id.main_fragment,fragments.get(position), "main_fragment").commit();
+                        customViewPager.setCurrentItem(1);
+                     /*   fragmentTransaction = supportFragmentManager.beginTransaction();
+                        fragmentTransaction.replace(R.id.main_fragment,fragments.get(position), "main_fragment").commit();*/
                       //  toolbar.setVisibility(View.GONE);
                         break;
                     case 2:
-                         fragmentTransaction = supportFragmentManager.beginTransaction();
-                        fragmentTransaction.replace(R.id.main_fragment,fragments.get(position), "main_5fragment").commit();
+                        customViewPager.setCurrentItem(2);
+                        /* fragmentTransaction = supportFragmentManager.beginTransaction();
+                        fragmentTransaction.replace(R.id.main_fragment,fragments.get(position), "main_5fragment").commit();*/
                       //  toolbar.setVisibility(View.GONE);
                         break;
                     case 3:
-                         fragmentTransaction = supportFragmentManager.beginTransaction();
-                        fragmentTransaction.replace(R.id.main_fragment,fragments.get(position), "m2ain_fragment").commit();
+                        customViewPager.setCurrentItem(3);
+                    /*     fragmentTransaction = supportFragmentManager.beginTransaction();
+                        fragmentTransaction.replace(R.id.main_fragment,fragments.get(position), "m2ain_fragment").commit();*/
                       //  toolbar.setVisibility(View.GONE);
                         break;
                     case 4:
-                         fragmentTransaction = supportFragmentManager.beginTransaction();
-                        fragmentTransaction.replace(R.id.main_fragment,fragments.get(position), "main_8fragment").commit();
+                        customViewPager.setCurrentItem(4);
+                     /*    fragmentTransaction = supportFragmentManager.beginTransaction();
+                        fragmentTransaction.replace(R.id.main_fragment,fragments.get(position), "main_8fragment").commit();*/
                       //  toolbar.setVisibility(View.GONE);
                         break;
 
@@ -223,11 +236,19 @@ public class MainActivity extends AppCompatActivity {
     }
     private ArrayList<BaseFragment> getFragments() {
 
-        fragments.add(DailyFragment.newInstance("Home"));
+       // fragments.add(DailyFragment.newInstance("Home"));
+/*        fragments.add(AllTabFragment.newInstance("Home"));
         fragments.add(BooksFragment.newInstance("Books"));
         fragments.add(MusicFragment.newInstance("Music"));
         fragments.add(VideoFragment.newInstance("Videos"));
-        fragments.add(GameFragment.newInstance("Games"));
+        fragments.add(GameFragment.newInstance("Games"));*/
+        fragments = new ArrayList<>();
+        fragments.add(new AllTabFragment());
+        fragments.add(new BooksFragment());
+        fragments.add(new MusicFragment());
+        fragments.add(new VideoFragment());
+        fragments.add(new GameFragment());
+        adapter = new MainContentVPAdapter(supportFragmentManager, fragments);
         return fragments;
     }
     @Override

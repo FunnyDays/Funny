@@ -15,8 +15,8 @@ public abstract class BaseFragment extends Fragment {
 
     @Override
     public void onAttach(Context context) {
-        Log.i("initdata", "onAttach: 初始化");
         super.onAttach(context);
+        Log.e("weiwei","onAttach");
         initData();
     }
 
@@ -24,7 +24,7 @@ public abstract class BaseFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mActivity = getActivity();
-
+        Log.e("weiwei","onCreate");
         setHasOptionsMenu(true);
     }
 
@@ -32,6 +32,7 @@ public abstract class BaseFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = initView();
+        Log.e("weiwei","onCreateView");
         return view;
     }
 
@@ -40,10 +41,12 @@ public abstract class BaseFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        Log.e("weiwei","onActivityCreated");
 
     }
 
     public void initData() {
-        Log.i("initdata", "initData: 父元素初始化");
+        Log.e("weiwei","initData");
+
     }
 }

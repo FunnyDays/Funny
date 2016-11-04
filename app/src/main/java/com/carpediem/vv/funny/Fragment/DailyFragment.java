@@ -1,7 +1,6 @@
 package com.carpediem.vv.funny.Fragment;
 
 import android.content.Intent;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -63,7 +62,6 @@ public class DailyFragment extends BaseFragment {
     List<FunnyGif> arrayList = new ArrayList<FunnyGif>();
     private LinearLayoutManager linearLayoutManager;
     private Toolbar toolbar;
-    private Typeface typeface;
 
     public static DailyFragment newInstance(String content) {
         Bundle args = new Bundle();
@@ -91,7 +89,6 @@ public class DailyFragment extends BaseFragment {
 
     @Override
     protected View initView() {
-        typeface = Typeface.createFromAsset(mActivity.getAssets(), "fonts/1.ttf");
         View view = View.inflate(mActivity, R.layout.fragment_daily, null);
         toolbar = (Toolbar) view.findViewById(R.id.toolbar);
         initToolbar();
@@ -296,7 +293,7 @@ public class DailyFragment extends BaseFragment {
                 });
             }else if (holder instanceof TextViewHolder){
 
-                ((TextViewHolder)holder).tv.setTypeface(typeface);
+
                 ((TextViewHolder)holder).tv.setText(arrayList.get(position).getTextJoke());
 
             }
