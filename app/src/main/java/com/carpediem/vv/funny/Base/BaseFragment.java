@@ -17,13 +17,13 @@ public abstract class BaseFragment extends Fragment {
     public void onAttach(Context context) {
         super.onAttach(context);
         Log.e("weiwei","onAttach");
-        initData();
+        mActivity = getActivity();
+
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mActivity = getActivity();
         Log.e("weiwei","onCreate");
         setHasOptionsMenu(true);
     }
@@ -31,22 +31,19 @@ public abstract class BaseFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        initData();
         View view = initView();
         Log.e("weiwei","onCreateView");
         return view;
     }
 
+
+
     protected abstract View initView();
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        Log.e("weiwei","onActivityCreated");
 
-    }
 
     public void initData() {
         Log.e("weiwei","initData");
-
     }
 }

@@ -16,6 +16,7 @@ import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
@@ -70,6 +71,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE);
         Bmob.initialize(this, "c4e9104738e2747a6c63855e7d2a9b7d");
         setContentView(R.layout.activity_main);
         mPermissionsChecker = new PermissionsChecker(this);
@@ -100,9 +102,7 @@ public class MainActivity extends AppCompatActivity {
         });*/
 
         init();
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        // Here, thisActivity is the current activity
+
     }
 
     private void initUser() {
@@ -142,10 +142,9 @@ public class MainActivity extends AppCompatActivity {
 
     private void init() {
         getFragments();
-
         customViewPager = (CustomViewPager) findViewById(R.id.main_fragment);
         customViewPager.setAdapter(adapter);
-        customViewPager.setOffscreenPageLimit(3);//设置缓存页数，缓存所有fragment
+        customViewPager.setOffscreenPageLimit(4);//设置缓存页数，缓存所有fragment
         bottomNavigationBar = (BottomNavigationBar) findViewById(R.id.bottom_navigation_bar);
         bottomNavigationBar
                 .addItem(new BottomNavigationItem(R.drawable.ic_home_white_24dp, "每日").setActiveColorResource(R.color.colorPrimary))
@@ -156,59 +155,30 @@ public class MainActivity extends AppCompatActivity {
                 .setMode(BottomNavigationBar.MODE_FIXED)//设置底部代文字显示模式。MODE_DEFAULT默认MODE_FIXED代文字MODE_SHIFTING不带文字
                 .setBackgroundStyle(BottomNavigationBar.BACKGROUND_STYLE_STATIC)//背景模式BACKGROUND_STYLE_RIPPLE涟漪BACKGROUND_STYLE_STATIC静态
                 .initialise();
-        setDefaultFragment();
+        //setDefaultFragment();
         bottomNavigationBar.setTabSelectedListener(new BottomNavigationBar.OnTabSelectedListener() {
             //当前的选中的tab
             @Override
             public void onTabSelected(int position) {
-                Log.i("tab", "onTabSelected position:" + position);
+                Log.e("weiwei", "onTabSelected position:" + position);
                switch (position) {
                     case 0:
                         customViewPager.setCurrentItem(0);
-                      /*  fragmentTransaction = supportFragmentManager.beginTransaction();
-                        fragmentTransaction.replace(R.id.main_fragment,fragments.get(position), "daily_fragment").commit();*/
-                       // toolbar.setVisibility(View.VISIBLE);
                         break;
                     case 1:
                         customViewPager.setCurrentItem(1);
-                     /*   fragmentTransaction = supportFragmentManager.beginTransaction();
-                        fragmentTransaction.replace(R.id.main_fragment,fragments.get(position), "main_fragment").commit();*/
-                      //  toolbar.setVisibility(View.GONE);
                         break;
                     case 2:
                         customViewPager.setCurrentItem(2);
-                        /* fragmentTransaction = supportFragmentManager.beginTransaction();
-                        fragmentTransaction.replace(R.id.main_fragment,fragments.get(position), "main_5fragment").commit();*/
-                      //  toolbar.setVisibility(View.GONE);
                         break;
                     case 3:
                         customViewPager.setCurrentItem(3);
-                    /*     fragmentTransaction = supportFragmentManager.beginTransaction();
-                        fragmentTransaction.replace(R.id.main_fragment,fragments.get(position), "m2ain_fragment").commit();*/
-                      //  toolbar.setVisibility(View.GONE);
-                        break;
+                            break;
                     case 4:
                         customViewPager.setCurrentItem(4);
-                     /*    fragmentTransaction = supportFragmentManager.beginTransaction();
-                        fragmentTransaction.replace(R.id.main_fragment,fragments.get(position), "main_8fragment").commit();*/
-                      //  toolbar.setVisibility(View.GONE);
                         break;
 
                 }
-                //下面代码会造成界面重叠的情况
-              /*  if (fragments != null) {
-                    if (position < fragments.size()) {
-                        FragmentManager fm = getSupportFragmentManager();
-                        FragmentTransaction ft = fm.beginTransaction();
-                        BaseFragment fragment = fragments.get(position);
-                        if (fragment.isAdded()) {
-                            ft.replace(R.id.main_fragment, fragment);
-                        } else {
-                            ft.add(R.id.main_fragment, fragment);
-                        }
-                        ft.commitAllowingStateLoss();
-                    }
-                }*/
 
             }
 
@@ -216,6 +186,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onTabUnselected(int position) {
                 Log.i("tab", "onTabUnselected position:" + position);
+                Log.e("weiwei", "onTabUnselected position:" + position);
 
             }
 
@@ -223,25 +194,15 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onTabReselected(int position) {
                 Log.i("tab", "onTabReselected position:" + position);
-
+                Log.e("weiwei", "onTabReselected position:" + position);
+                fragments.get(position).initData();
             }
         });
     }
 
-    private void setDefaultFragment() {
-        FragmentManager fm = getSupportFragmentManager();
-        FragmentTransaction transaction = fm.beginTransaction();
-        transaction.replace(R.id.main_fragment, getFragments().get(0));
-        transaction.commit();
-    }
+
     private ArrayList<BaseFragment> getFragments() {
 
-       // fragments.add(DailyFragment.newInstance("Home"));
-/*        fragments.add(AllTabFragment.newInstance("Home"));
-        fragments.add(BooksFragment.newInstance("Books"));
-        fragments.add(MusicFragment.newInstance("Music"));
-        fragments.add(VideoFragment.newInstance("Videos"));
-        fragments.add(GameFragment.newInstance("Games"));*/
         fragments = new ArrayList<>();
         fragments.add(new AllTabFragment());
         fragments.add(new BooksFragment());

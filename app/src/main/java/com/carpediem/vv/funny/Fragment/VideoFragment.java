@@ -75,6 +75,7 @@ public class VideoFragment extends BaseFragment {
 
     @Override
     protected View initView() {
+
         Log.e("bmob", "：initView开始执行" );
         View view = View.inflate(mActivity, R.layout.fragment_video, null);
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.SwipeRefreshLayout);
