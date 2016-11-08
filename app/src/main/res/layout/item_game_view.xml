@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="40dp"
+        android:layout_marginTop="10dp">
+
+        <ImageView
+            android:id="@+id/game_pic"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+
+            android:src="@mipmap/ic_launcher" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_toRightOf="@id/game_pic"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/game_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="遊戲名稱"
+                android:textColor="@android:color/black"
+                android:textSize="14sp" />
+
+            <RelativeLayout
+                android:layout_gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <RatingBar
+                    android:id="@+id/ratingBar"
+                    style="?android:attr/ratingBarStyleSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:max="5"
+                    android:rating="4" />
+
+                <TextView
+                    android:id="@+id/game_edition"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/ratingBar"
+                    android:text="遊戲名稱"
+                    android:textSize="12sp" />
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/game_size"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="遊戲名稱"
+                android:textColor="@android:color/black"
+                android:textSize="12sp" />
+
+            <TextView
+                android:layout_marginBottom="10dp"
+                android:id="@+id/game_intro"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="遊戲名稱"
+                android:textColor="@android:color/black"
+                android:textSize="14sp" />
+            <View
+                android:layout_width="match_parent"
+                android:background="#44555511"
+                android:layout_height="1dp">
+
+            </View>
+        </LinearLayout>
+    </RelativeLayout>
+
+</LinearLayout>

@@ -28,6 +28,7 @@ import com.carpediem.vv.funny.Fragment.BooksFragment;
 import com.carpediem.vv.funny.Fragment.DailyFragment;
 import com.carpediem.vv.funny.Fragment.GameFragment;
 import com.carpediem.vv.funny.Fragment.MusicFragment;
+import com.carpediem.vv.funny.Fragment.UserFragment;
 import com.carpediem.vv.funny.Fragment.VideoFragment;
 import com.carpediem.vv.funny.R;
 import com.carpediem.vv.funny.Utils.CacheUtils;
@@ -208,7 +209,7 @@ public class MainActivity extends AppCompatActivity {
         fragments.add(new BooksFragment());
         fragments.add(new MusicFragment());
         fragments.add(new VideoFragment());
-        fragments.add(new GameFragment());
+        fragments.add(new UserFragment());
         adapter = new MainContentVPAdapter(supportFragmentManager, fragments);
         return fragments;
     }

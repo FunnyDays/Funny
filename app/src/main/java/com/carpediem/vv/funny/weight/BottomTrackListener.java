@@ -6,7 +6,7 @@ import android.view.View;
 import android.view.ViewParent;
 
 /**
- * Created by gaoyunfei on 15/7/27.
+ *
  */
 public class BottomTrackListener extends RecyclerView.OnScrollListener {
 

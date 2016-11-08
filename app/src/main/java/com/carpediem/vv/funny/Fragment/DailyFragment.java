@@ -90,8 +90,8 @@ public class DailyFragment extends BaseFragment {
     @Override
     protected View initView() {
         View view = View.inflate(mActivity, R.layout.fragment_daily, null);
-        toolbar = (Toolbar) view.findViewById(R.id.toolbar);
-        initToolbar();
+       // toolbar = (Toolbar) view.findViewById(R.id.toolbar);
+       // initToolbar();
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.SwipeRefreshLayout);
         initSwipeRefreshLayout();
 

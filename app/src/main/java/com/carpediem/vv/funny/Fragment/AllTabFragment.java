@@ -40,14 +40,17 @@ public class AllTabFragment extends BaseFragment {
         toolbar.setNavigationIcon(R.drawable.ic_book_white_24dp);
         //tablayout设置
         tabLayout = (TabLayout) view.findViewById(R.id.tabs);
+        tabLayout.setSelectedTabIndicatorColor(getResources().getColor(R.color.colorControlNormal));
         viewPager = (ViewPager) view.findViewById(R.id.viewpager);
+
 
         //viewpager适配器
         TabsViewPagerAdapter adapter = new TabsViewPagerAdapter(((MainActivity)mActivity).getSupportFragmentManager());
-        adapter.addFragment(new BooksFragment(), "Tab1");
-        adapter.addFragment(new BooksFragment(), "Tab2");
-        adapter.addFragment(new BooksFragment(), "Tab3");
+        adapter.addFragment(new DailyFragment(), "今日");
+        adapter.addFragment(new MovieFragment(), "电影");
+        adapter.addFragment(new GameFragment(), "游戏");
         viewPager.setAdapter(adapter);
+        viewPager.setOffscreenPageLimit(2);
         tabLayout.setupWithViewPager(viewPager);
         return view;
     }
