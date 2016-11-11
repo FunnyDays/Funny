@@ -2,6 +2,7 @@ package com.carpediem.vv.funny.Fragment;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -18,6 +19,7 @@ import com.bumptech.glide.Glide;
 import com.carpediem.vv.funny.Activity.MainActivity;
 import com.carpediem.vv.funny.Adapter.GameAdapter;
 import com.carpediem.vv.funny.Base.BaseFragment;
+import com.carpediem.vv.funny.DataParserBean.DataParser;
 import com.carpediem.vv.funny.R;
 
 import com.carpediem.vv.funny.bean.FunnyGIF.FunnyGif;
@@ -70,7 +72,18 @@ public class GameFragment extends BaseFragment {
      */
     @Override
     public void initData() {
-        queryData(0, STATE_REFRESH);
+        //queryData(0, STATE_REFRESH);
+        new Thread() {
+            @Override
+            public void run() {
+                ArrayList<Game> gameArrayList = DataParser.getAllGame();
+                arrayList.addAll(gameArrayList);
+                Message message = new Message();
+                message.what=1;
+                handler.sendMessage(message);
+            }
+        }.start();
+
         this.handler.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -185,14 +198,14 @@ public class GameFragment extends BaseFragment {
         if (actionType == STATE_MORE) {
             Log.e("bmob查询的数据", "curPage:" + curPage + " limit:" + limit + " actionType:" + actionType);
             // 处理时间查询
-            Date date = null;
+           /* Date date = null;
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             try {
 
                 date = sdf.parse(lastTime);
             } catch (ParseException e) {
                 e.printStackTrace();
-            }
+            }*/
             // 只查询小于等于最后一个item发表时间的数据
             //query.addWhereLessThanOrEqualTo("createdAt", new BmobDate(date));
             // 跳过之前页数并去掉重复数据

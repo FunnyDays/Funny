@@ -59,7 +59,10 @@ public class GameAdapter extends RecyclerView.Adapter {
          ((ItemViewHolder)holder).gameIntro.setText(arrayList.get(position).getGameIntro());
          ((ItemViewHolder)holder).gameName.setText(arrayList.get(position).getGameName());
          ((ItemViewHolder)holder).gameSize.setText(arrayList.get(position).getGameSize());
-
+            Glide.with(mActivity)
+                    .load(arrayList.get(position).getGamePic())
+                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                    .into(((ItemViewHolder)holder).gamePic);
 
         }
     }
