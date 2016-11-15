@@ -1,21 +1,16 @@
 package com.carpediem.vv.funny.Adapter;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.carpediem.vv.funny.Activity.CommentActivity;
-import com.carpediem.vv.funny.Fragment.DailyFragment;
 import com.carpediem.vv.funny.R;
 import com.carpediem.vv.funny.bean.GameBean.Game;
 
@@ -25,13 +20,13 @@ import java.util.ArrayList;
  * Created by Administrator on 2016/11/8.
  */
 
-public class GameAdapter extends RecyclerView.Adapter {
+public class MyGameAdapter extends RecyclerView.Adapter {
 
     private static final int TYPE_ONE = 1;
     private static final int TYPE_FOOTER = 0;
     private ArrayList<Game> arrayList;
     private Activity mActivity;
-    public GameAdapter(Activity mActivity, ArrayList<Game> arrayList) {
+    public MyGameAdapter(Activity mActivity, ArrayList<Game> arrayList) {
         this.arrayList=arrayList;
         this.mActivity=mActivity;
     }
@@ -67,7 +62,6 @@ public class GameAdapter extends RecyclerView.Adapter {
                     .into(((ItemViewHolder)holder).gamePic);
 
         }
-
     }
 
     @Override
@@ -82,7 +76,7 @@ public class GameAdapter extends RecyclerView.Adapter {
 
     @Override
     public int getItemCount() {
-        return arrayList.size() == 0 ? 0 : arrayList.size() + 1;
+        return arrayList.size() == 0 ? 10 : arrayList.size() + 1;
     }
     class FootViewHolder extends RecyclerView.ViewHolder {
 

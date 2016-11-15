@@ -2,6 +2,7 @@ package com.carpediem.vv.funny.DataParserBean;
 
 import android.util.Log;
 
+
 import com.carpediem.vv.funny.Utils.net.DangLeInterface;
 import com.carpediem.vv.funny.bean.GameBean.Game;
 
@@ -20,11 +21,11 @@ public class DataParser {
     public static DataParser getInstance() {
         return new DataParser();
     }
-    public static ArrayList<Game> getAllGame(){
+    public static ArrayList<Game> getAllGame(int j){
         ArrayList<Game> gameArrayList = new ArrayList<>();
         Game game;
         try {
-            Document doc = Jsoup.connect(DangLeInterface.ALLGAMELIST).get();
+            Document doc = Jsoup.connect(DangLeInterface.getGameInterface(j)).get();
             Elements element = doc.select("div.list-left");
             String attr = element.select("a").attr("title");
             for (int i = 0; i <element.size(); i++) {
@@ -37,14 +38,17 @@ public class DataParser {
                 game.setGamePic(pic);
                 gameArrayList.add(game);
 
-              //  Log.e("weiwei", "游戏名称：" + gameArrayList.get(i).getGameName() + "图片的链接地址" + gameArrayList.get(i).getGamePicLink());
+                //  Log.e("weiwei", "游戏名称：" + gameArrayList.get(i).getGameName() + "图片的链接地址" + gameArrayList.get(i).getGamePicLink());
             }
+
+
             Log.e("weiwei", "游戏名称：" + element.size() + "图片的链接地址" );
+
 
         } catch (IOException e) {
             e.printStackTrace();
         }
-       return gameArrayList;
+        return gameArrayList;
     }
 
 }
