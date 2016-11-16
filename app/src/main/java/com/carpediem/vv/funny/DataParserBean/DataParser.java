@@ -26,14 +26,26 @@ public class DataParser {
         Game game;
         try {
             Document doc = Jsoup.connect(DangLeInterface.getGameInterface(j)).get();
-            Elements element = doc.select("div.list-left");
-            String attr = element.select("a").attr("title");
+            Elements element = doc.select("div.list-in");
+
             for (int i = 0; i <element.size(); i++) {
                 game = new Game();
                 //获取游戏名称
-                String name = element.get(i).select("a").attr("title");
+                String name = element.get(i).select("div.list-left").select("a").attr("title");
                 //获取游戏图标
-                String pic = element.get(i).select("a").select("img").attr("o-src");
+                String pic = element.get(i).select("div.list-left").select("a").select("img").attr("o-src");
+                //获取星星数量
+                String starts = element.get(i).select("div.list-left").select(".stars.iconSprite").attr("class");
+                //获取游戏版本
+                String edtion = element.get(i).select("div.list-right").select("p.down-ac").text();
+                //获取游戏介绍
+                String intro = element.get(i).select("div.list-right").select("p.g-intro").text();
+                //获取游戏大小
+                String size = element.get(i).select("div.list-right").select("p.g-detail").text();
+                game.setGameEdition(edtion);
+                game.setGameSize(size);
+                game.setGameIntro(intro);
+                game.setGameStar(Float.valueOf(starts.substring(starts.length()-1)));
                 game.setGameName(name);
                 game.setGamePic(pic);
                 gameArrayList.add(game);

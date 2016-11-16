@@ -10,14 +10,15 @@ public class Game extends BmobObject {
     private String gameName;
     private String gamePic;
     private String gameEdition;
+    private Float gameStar;
     private String gameSize;
     private String gameIntro;
 
-    public String getGameStar() {
+    public Float getGameStar() {
         return gameStar;
     }
 
-    public void setGameStar(String gameStar) {
+    public void setGameStar(Float gameStar) {
         this.gameStar = gameStar;
     }
 
@@ -61,6 +62,5 @@ public class Game extends BmobObject {
         this.gameIntro = gameIntro;
     }
 
-    private String gameStar;
 
 }

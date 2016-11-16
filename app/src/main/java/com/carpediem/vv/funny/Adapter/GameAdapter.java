@@ -31,16 +31,17 @@ public class GameAdapter extends RecyclerView.Adapter {
     private static final int TYPE_FOOTER = 0;
     private ArrayList<Game> arrayList;
     private Activity mActivity;
+
     public GameAdapter(Activity mActivity, ArrayList<Game> arrayList) {
-        this.arrayList=arrayList;
-        this.mActivity=mActivity;
+        this.arrayList = arrayList;
+        this.mActivity = mActivity;
     }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view;
-        switch (viewType){
-            case TYPE_FOOTER :
+        switch (viewType) {
+            case TYPE_FOOTER:
                 view = LayoutInflater.from(mActivity).inflate(R.layout.item_foot, parent, false);
                 return new FootViewHolder(view);
             case TYPE_ONE:
@@ -53,18 +54,18 @@ public class GameAdapter extends RecyclerView.Adapter {
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        if(arrayList.size()==0){
+        if (arrayList.size() == 0) {
 
-        }else  if (holder instanceof ItemViewHolder) {
-         ((ItemViewHolder)holder).gameEdition.setText(arrayList.get(position).getGameEdition());
-         ((ItemViewHolder)holder).gameIntro.setText(arrayList.get(position).getGameIntro());
-         ((ItemViewHolder)holder).gameName.setText(arrayList.get(position).getGameName());
-         ((ItemViewHolder)holder).gameSize.setText(arrayList.get(position).getGameSize());
-
+        } else if (holder instanceof ItemViewHolder) {
+            ((ItemViewHolder) holder).gameEdition.setText(arrayList.get(position).getGameEdition());
+            ((ItemViewHolder) holder).gameIntro.setText(arrayList.get(position).getGameIntro());
+            ((ItemViewHolder) holder).gameName.setText(arrayList.get(position).getGameName());
+            ((ItemViewHolder) holder).gameSize.setText(arrayList.get(position).getGameSize());
+            ((ItemViewHolder) holder).gameRatingBar.setRating(arrayList.get(position).getGameStar());
             Glide.with(mActivity)
                     .load(arrayList.get(position).getGamePic())
                     .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-                    .into(((ItemViewHolder)holder).gamePic);
+                    .into(((ItemViewHolder) holder).gamePic);
 
         }
 
@@ -74,7 +75,7 @@ public class GameAdapter extends RecyclerView.Adapter {
     public int getItemViewType(int position) {
         if (position + 1 == getItemCount()) {
             return TYPE_FOOTER;
-        }else {
+        } else {
             return TYPE_ONE;
         }
 
@@ -84,13 +85,15 @@ public class GameAdapter extends RecyclerView.Adapter {
     public int getItemCount() {
         return arrayList.size() == 0 ? 0 : arrayList.size() + 1;
     }
+
     class FootViewHolder extends RecyclerView.ViewHolder {
 
         public FootViewHolder(View view) {
             super(view);
         }
     }
-    class ItemViewHolder extends RecyclerView.ViewHolder{
+
+    class ItemViewHolder extends RecyclerView.ViewHolder {
 
         private final TextView gameEdition;
         private final TextView gameIntro;
