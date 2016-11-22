@@ -1,5 +1,6 @@
 package com.carpediem.vv.funny.Fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -16,13 +17,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.carpediem.vv.funny.Activity.GameDetailActivity;
 import com.carpediem.vv.funny.Activity.MainActivity;
 import com.carpediem.vv.funny.Adapter.GameAdapter;
+import com.carpediem.vv.funny.Adapter.GameDetailPicAdapter;
 import com.carpediem.vv.funny.Base.BaseFragment;
 
 import com.carpediem.vv.funny.DataParserBean.DataParser;
 import com.carpediem.vv.funny.R;
 
+import com.carpediem.vv.funny.Utils.IntentUtils;
 import com.carpediem.vv.funny.Utils.T;
 import com.carpediem.vv.funny.bean.FunnyGIF.FunnyGif;
 import com.carpediem.vv.funny.bean.GameBean.Game;
@@ -99,6 +103,7 @@ public class GameFragment extends BaseFragment {
         if (action == STATE_REFRESH) {
             ArrayList<Game> gameArrayList1 = DataParser.getAllGame(page);
             arrayList.addAll(gameArrayList1);
+
         }
         if (action == STATE_MORE) {
             ArrayList<Game> gameArrayList1 = DataParser.getAllGame(page);
@@ -132,6 +137,15 @@ public class GameFragment extends BaseFragment {
         linearLayoutManager = new LinearLayoutManager(mActivity);
         recyclerView.setLayoutManager(linearLayoutManager);
         mAdapter = new GameAdapter(mActivity, arrayList);
+        mAdapter.setOnItemClickLitener(new GameDetailPicAdapter.OnItemClickLitener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                Intent intent = new Intent(mActivity, GameDetailActivity.class);
+                intent.putExtra("gameLink",arrayList.get(position).getGameDetailLink());
+                Log.e("weiwei",arrayList.get(position).getGameDetailLink());
+                startActivity(intent);
+            }
+        });
         recyclerView.setAdapter(mAdapter);
         //监听手指滑动
         recyclerView.addOnScrollListener(new BottomTrackListener(MainActivity.bottomNavigationBar));

@@ -27,6 +27,7 @@
             android:screenOrientation="portrait"></activity>
         <activity android:name=".Activity.PlayVideoActivity"
             android:screenOrientation="portrait"></activity>
+        <activity android:name=".Activity.GameDetailActivity"></activity>
     </application>
     <!--允许联网 -->
     <uses-permission android:name="android.permission.INTERNET" />

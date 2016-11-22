@@ -37,6 +37,24 @@ public class GameAdapter extends RecyclerView.Adapter {
         this.mActivity = mActivity;
     }
 
+    /**
+     * ItemClick的回调接口
+     * @author zhy
+     *
+     */
+    public interface OnItemClickLitener
+    {
+        void onItemClick(View view, int position);
+    }
+
+    private GameDetailPicAdapter.OnItemClickLitener mOnItemClickLitener;
+
+    public void setOnItemClickLitener(GameDetailPicAdapter.OnItemClickLitener mOnItemClickLitener)
+    {
+        this.mOnItemClickLitener = mOnItemClickLitener;
+    }
+
+
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view;
@@ -53,7 +71,7 @@ public class GameAdapter extends RecyclerView.Adapter {
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
         if (arrayList.size() == 0) {
 
         } else if (holder instanceof ItemViewHolder) {
@@ -66,6 +84,19 @@ public class GameAdapter extends RecyclerView.Adapter {
                     .load(arrayList.get(position).getGamePic())
                     .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                     .into(((ItemViewHolder) holder).gamePic);
+
+        }
+        //如果设置了回调，则设置点击事件
+        if (mOnItemClickLitener != null)
+        {
+            holder.itemView.setOnClickListener(new View.OnClickListener()
+            {
+                @Override
+                public void onClick(View v)
+                {
+                    mOnItemClickLitener.onItemClick(holder.itemView, position);
+                }
+            });
 
         }
 

@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/toolbar" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:weightSum="1">
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp">
+
+                <ImageView
+                    android:id="@+id/game_pic"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_centerVertical="true"
+                    android:src="@mipmap/ic_launcher" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_toRightOf="@id/game_pic"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/game_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:lines="1"
+                        android:text="@string/app_name"
+                        android:textColor="@android:color/black"
+                        android:textSize="26sp" />
+
+                    <TextView
+                        android:id="@+id/game_edition"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/game_name"
+                        android:text="版本"
+                        android:textColor="@android:color/black"
+                        android:textSize="12sp" />
+
+                    <RatingBar
+                        android:id="@+id/ratingBar"
+                        style="?android:attr/ratingBarStyleSmall"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginBottom="15dp"
+                        android:max="5"
+                        android:rating="4" />
+                </RelativeLayout>
+            </RelativeLayout>
+
+            <Button
+                android:id="@+id/install_app"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:background="@drawable/ripple_bg"
+                android:clickable="true"
+                android:text="安装" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_margin="20dp"
+                android:background="#55000000"></View>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1.2">
+
+            </android.support.v7.widget.RecyclerView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:text="概述"
+                android:textColor="@android:color/black"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/tv_game_edition"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="40dp"
+                android:text="•版本："
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/tv_game_size"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="40dp"
+                android:text="•类别："
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/tv_game_lang"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="40dp"
+                android:text="•语言："
+                android:textSize="12sp"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_margin="20dp"
+                android:background="#55000000"></View>
+            <TextView
+                android:id="@+id/tv_content"
+                android:layout_margin="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="fasdfsafdsfdasfasfasf"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_margin="20dp"
+                android:background="#55000000"></View>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:textSize="18sp"
+                    android:textColor="@android:color/black"
+                    android:text="相关推荐："/>
+                <TextView
+                    android:clickable="true"
+                    android:background="@drawable/ripple_bg"
+                    android:layout_alignParentRight="true"
+                    android:layout_width="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:textColor="@android:color/black"
+                    android:text="查看更多"/>
+
+            </RelativeLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="200dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp">
+                    <ImageView
+                        android:clickable="true"
+                        android:background="@drawable/ripple_bg"
+                        android:id="@+id/book_one"
+                        android:layout_width="match_parent"
+                        android:layout_height="180dp"
+                        android:src="@mipmap/ic_launcher" />
+                    <TextView
+                        android:layout_gravity="center"
+                        android:id="@+id/book_one_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="20dp"
+                        android:text="one" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="200dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp">
+                    <ImageView
+                        android:clickable="true"
+                        android:background="@drawable/ripple_bg"
+                        android:id="@+id/book_two"
+                        android:layout_width="match_parent"
+                        android:layout_height="180dp"
+                        android:src="@mipmap/ic_launcher" />
+                    <TextView
+                        android:layout_gravity="center"
+                        android:id="@+id/book_two_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="20dp"
+                        android:text="two" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="200dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp">
+                    <ImageView
+                        android:clickable="true"
+                        android:background="@drawable/ripple_bg"
+                        android:id="@+id/book_three"
+                        android:layout_width="match_parent"
+                        android:layout_height="180dp"
+                        android:src="@mipmap/ic_launcher" />
+                    <TextView
+                        android:layout_gravity="center"
+                        android:id="@+id/book_three_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="20dp"
+                        android:text="three" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>

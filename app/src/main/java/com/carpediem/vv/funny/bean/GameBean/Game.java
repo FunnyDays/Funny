@@ -13,6 +13,16 @@ public class Game extends BmobObject {
     private Float gameStar;
     private String gameSize;
     private String gameIntro;
+    private String gameDetailLink;
+    public String getGameDetailLink() {
+        return gameDetailLink;
+    }
+
+    public void setGameDetailLink(String gameDetailLink) {
+        this.gameDetailLink = gameDetailLink;
+    }
+
+
 
     public Float getGameStar() {
         return gameStar;
