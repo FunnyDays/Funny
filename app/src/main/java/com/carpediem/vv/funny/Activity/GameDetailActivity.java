@@ -8,13 +8,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
-
-
 import com.carpediem.vv.funny.Adapter.GameDetailPicAdapter;
 import com.carpediem.vv.funny.DataParserBean.DataParser;
 import com.carpediem.vv.funny.R;
+import com.carpediem.vv.funny.Utils.LG;
+import com.carpediem.vv.funny.bean.GameBean.GameDetail;
 
 import java.util.ArrayList;
 
@@ -53,12 +52,15 @@ public class GameDetailActivity extends AppCompatActivity {
             }
         };
 
-
-
         new Thread() {
             @Override
             public void run() {
-                DataParser.getGameDetail(gameLink);
+                GameDetail gameDetail = DataParser.getGameDetail(gameLink);
+                ArrayList<String> gamePic = gameDetail.getGamePic();
+                for (int i = 0; i < gamePic.size(); i++) {
+                    String s = gamePic.get(i);
+                    //LG.d("weiwei",s+"hehe");
+                }
                 Message message = new Message();
                 message.what = 1;
                 handler.sendMessage(message);

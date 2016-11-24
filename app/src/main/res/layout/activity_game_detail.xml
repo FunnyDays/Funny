@@ -50,11 +50,11 @@
                         android:textSize="26sp" />
 
                     <TextView
-                        android:id="@+id/game_edition"
+                        android:id="@+id/game_name_en"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/game_name"
-                        android:text="版本"
+                        android:text="英文名"
                         android:textColor="@android:color/black"
                         android:textSize="12sp" />
 

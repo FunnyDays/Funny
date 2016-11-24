@@ -28,25 +28,45 @@ public class DataParser {
      * @param link
      * @return
      */
-    public static ArrayList<GameDetail> getGameDetail(String link) {
-        ArrayList<GameDetail> gameArrayList = new ArrayList<>();
-        GameDetail gameDetail =null;
+    public static GameDetail getGameDetail(String link) {
+        GameDetail gameDetail = new GameDetail();
+        ArrayList<String> picArrayList= new ArrayList<>();
         try {
             Document doc = Jsoup.connect(link).get();
-            Elements element = doc.select("div.gameimg-screen").select("img");
-            for (int i = 0; i <element.size() ; i++) {
-                 gameDetail = new GameDetail();
-                //获取游戏链接
-                String gameLink = element.get(i).attr("src");
-                gameDetail.setGamePic(gameLink);
-                gameArrayList.add(gameDetail);
-                Log.e("weiwei", "游戏名称：" + element.size() + "图片的链接地址"+gameLink);
+            //获取游戏icon
+            String appIcon = doc.select("div.de-head-l").select("img").attr("src");
+            gameDetail.setGameIcon(appIcon);
+            //获取游戏名称（英文和中文）de-app-des
+            String appName = doc.select("h1.notag").text();
+            String appEnName = doc.select("h2.de-app-en.notag-h2").text();
+            gameDetail.setGameName(appName);
+            gameDetail.setGameEnName(appEnName);
+            //游戏下载链接(网站是动态加载的，获取不到链接，以后再说)
+            //String appDownLoad = doc.select("div.de-has-set.clearfix").select("a").outerHtml();
+
+
+            //获取游戏图片链接
+            Elements element1 = doc.select("div.gameimg-screen").select("img");
+            for (int i = 0; i <element1.size() ; i++) {
+                picArrayList.add(element1.get(i).attr("src"));
+               Log.e("weiwei", "游戏名称：" + element1.size() + "图片的链接地址"+picArrayList.get(i));
+            }
+            gameDetail.setGamePic(picArrayList);
+            //获取游戏信息
+            String gameType = doc.select("li.de-game-firm").select("a").text();
+            String allGameType = doc.select("ul.de-game-info.clearfix").text();
+            Elements elements = doc.select("ul.sim-app");
+            String string = elements.toString();
+            for (int i = 0; i < elements.size(); i++) {
+               // String s = elements.select("a").attr("title");
+                Log.e("weiwei", "数量一共是"+elements.size()+"游戏名称：" );
             }
 
+            Log.e("weiwei", string+"游戏名称：" +appIcon+appName+appEnName + "图片的链接地址"+allGameType+gameType);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return gameArrayList;
+        return gameDetail;
     }
 
     /**
