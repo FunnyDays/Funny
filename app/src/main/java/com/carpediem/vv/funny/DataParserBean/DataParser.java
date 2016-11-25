@@ -3,16 +3,26 @@ package com.carpediem.vv.funny.DataParserBean;
 
 import android.util.Log;
 
+import com.carpediem.vv.funny.Utils.LG;
 import com.carpediem.vv.funny.Utils.net.DangLeInterface;
 import com.carpediem.vv.funny.bean.GameBean.Game;
 import com.carpediem.vv.funny.bean.GameBean.GameDetail;
+import com.zhy.http.okhttp.OkHttpUtils;
+import com.zhy.http.okhttp.callback.Callback;
+import com.zhy.http.okhttp.callback.StringCallback;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
 import java.util.ArrayList;
+
+import okhttp3.Call;
+import okhttp3.Response;
 
 /**
  * Created by Administrator on 2016/11/11.
@@ -25,12 +35,39 @@ public class DataParser {
 
     /**
      * 获取五张游戏图片
+     *
      * @param link
      * @return
      */
     public static GameDetail getGameDetail(String link) {
+        int lastIndexOf = link.lastIndexOf("/");
+        String substring = link.substring(lastIndexOf);
+        int i1 = substring.indexOf(".");
+        String s = substring.substring(0, i1);
+        LG.e(s + "haha");
+        OkHttpUtils.get().url("http://android.d.cn/rm/red/1" + s).build().execute(new StringCallback() {
+            @Override
+            public void onError(Call call, Exception e, int id) {
+
+            }
+
+            @Override
+            public void onResponse(String response, int id) {
+
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+                    JSONArray pkgs = jsonObject.getJSONArray("pkgs");
+                    String pkgUrl = pkgs.getJSONObject(0).getString("pkgUrl");
+
+                    LG.e(pkgs.toString()+pkgUrl);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        });
         GameDetail gameDetail = new GameDetail();
-        ArrayList<String> picArrayList= new ArrayList<>();
+        ArrayList<String> picArrayList = new ArrayList<>();
         try {
             Document doc = Jsoup.connect(link).get();
             //获取游戏icon
@@ -47,9 +84,9 @@ public class DataParser {
 
             //获取游戏图片链接
             Elements element1 = doc.select("div.gameimg-screen").select("img");
-            for (int i = 0; i <element1.size() ; i++) {
+            for (int i = 0; i < element1.size(); i++) {
                 picArrayList.add(element1.get(i).attr("src"));
-               Log.e("weiwei", "游戏名称：" + element1.size() + "图片的链接地址"+picArrayList.get(i));
+                // Log.e("weiwei", "游戏名称：" + element1.size() + "图片的链接地址"+picArrayList.get(i));
             }
             gameDetail.setGamePic(picArrayList);
             //获取游戏信息
@@ -58,11 +95,11 @@ public class DataParser {
             Elements elements = doc.select("ul.sim-app");
             String string = elements.toString();
             for (int i = 0; i < elements.size(); i++) {
-               // String s = elements.select("a").attr("title");
-                Log.e("weiwei", "数量一共是"+elements.size()+"游戏名称：" );
+                // String s = elements.select("a").attr("title");
+                // Log.e("weiwei", "数量一共是"+elements.size()+"游戏名称：" );
             }
 
-            Log.e("weiwei", string+"游戏名称：" +appIcon+appName+appEnName + "图片的链接地址"+allGameType+gameType);
+            //  Log.e("weiwei", string+"游戏名称：" +appIcon+appName+appEnName + "图片的链接地址"+allGameType+gameType);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -71,6 +108,7 @@ public class DataParser {
 
     /**
      * 获取30条游戏列表信息
+     *
      * @param j
      * @return
      */
@@ -106,11 +144,11 @@ public class DataParser {
                 game.setGameDetailLink(link);
                 gameArrayList.add(game);
 
-               // Log.e("weiwei", "游戏名称：" + gameArrayList.get(i).getGameName() + "游戏的链接地址" + gameArrayList.get(i).getGameDetailLink());
+                // Log.e("weiwei", "游戏名称：" + gameArrayList.get(i).getGameName() + "游戏的链接地址" + gameArrayList.get(i).getGameDetailLink());
             }
 
 
-           // Log.e("weiwei", "游戏名称：" + element.size() + "图片的链接地址");
+            // Log.e("weiwei", "游戏名称：" + element.size() + "图片的链接地址");
 
 
         } catch (IOException e) {
