@@ -11,7 +11,44 @@ public class GameDetail {
     String gameIcon;
     String gameName;
     String gameEnName;
+    String gameDetailIntro;
+
+    public ArrayList<String> getGamerecommendName() {
+        return gamerecommendName;
+    }
+
+    public void setGamerecommendName(ArrayList<String> gamerecommendName) {
+        this.gamerecommendName = gamerecommendName;
+    }
+
+    public ArrayList<String> getGameRecommendImage() {
+        return gameRecommendImage;
+    }
+
+    public void setGameRecommendImage(ArrayList<String> gameRecommendImage) {
+        this.gameRecommendImage = gameRecommendImage;
+    }
+
+    ArrayList<String> gameRecommendImage;
+    ArrayList<String> gamerecommendName;
     ArrayList<String> gamePic;
+    ArrayList<String> gameAllIntro;
+
+    public String getGameDetailIntro() {
+        return gameDetailIntro;
+    }
+    public ArrayList<String> getGameAllIntro() {
+        return gameAllIntro;
+    }
+
+    public void setGameDetailIntro(String gameDetailIntro) {
+        this.gameDetailIntro = gameDetailIntro;
+    }
+
+    public void setGameAllIntro(ArrayList<String> gameAllIntro) {
+        this.gameAllIntro = gameAllIntro;
+    }
+
     public String getGameName() {
         return gameName;
     }

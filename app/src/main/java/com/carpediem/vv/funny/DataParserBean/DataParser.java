@@ -34,17 +34,70 @@ public class DataParser {
     }
 
     /**
-     * 获取五张游戏图片
+     * 获取游戏所有详情（游戏名称、游戏介绍、游戏介绍图片）
      *
-     * @param link
+     * @param link 游戏详情地址
      * @return
      */
     public static GameDetail getGameDetail(String link) {
-        int lastIndexOf = link.lastIndexOf("/");
-        String substring = link.substring(lastIndexOf);
+        GameDetail gameDetail = new GameDetail();
+        ArrayList<String> picArrayList = new ArrayList<>();
+        ArrayList<String> gameIntroArrayList = new ArrayList<>();
+        ArrayList<String> gameRecomendImg = new ArrayList<>();
+        ArrayList<String> gameRecomendText = new ArrayList<>();
+        try {
+            Document doc = Jsoup.connect(link).get();
+            //获取游戏icon
+            String appIcon = doc.select("div.de-head-l").select("img").attr("src");
+            gameDetail.setGameIcon(appIcon);
+            //获取游戏名称（英文和中文）de-app-des
+            String appName = doc.select("h1.notag").text();
+            String appEnName = doc.select("h2.de-app-en.notag-h2").text();
+            gameDetail.setGameName(appName);
+            gameDetail.setGameEnName(appEnName);
+            //获取游戏图片链接
+            Elements element1 = doc.select("div.gameimg-screen").select("img");
+            for (int i = 0; i < element1.size(); i++) {
+                picArrayList.add(element1.get(i).attr("src"));
+                 Log.e("weiwei", "游戏名称：" + element1.size() + "图片的链接地址"+picArrayList.get(i));
+            }
+            gameDetail.setGamePic(picArrayList);
+            //获取游戏详细（类型、）信息
+            Elements li = doc.select("ul.de-game-info.clearfix").select("li");
+            for (int i = 0; i < li.size(); i++) {
+                gameIntroArrayList.add(li.get(i).text());
+                Log.e("weiwei", "数量一共是"+li.size()+"----"+li.get(i).text());
+            }
+            gameDetail.setGameAllIntro(gameIntroArrayList);
+            //获取游戏详细介绍
+            Elements elements = doc.select("div.de-intro-inner");
+            gameDetail.setGameDetailIntro(elements.text());
+            //游戏推荐
+            Elements select = doc.select("a.de-set-icon").select("img");
+            for (int i = 0; i < 3; i++) {
+                String src = select.get(i).attr("o-src");
+                String alt = select.get(i).attr("alt");
+                gameRecomendImg.add(src);
+                gameRecomendText.add(alt);
+            }
+            gameDetail.setGameRecommendImage(gameRecomendImg);
+            gameDetail.setGamerecommendName(gameRecomendText);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return gameDetail;
+    }
+
+    /**
+     * 获取游戏下载链接
+     */
+    private static void getGameDownLoadLink(String link) {
+        final int[] lastIndexOf = {link.lastIndexOf("/")};
+        String substring = link.substring(lastIndexOf[0]);
         int i1 = substring.indexOf(".");
         String s = substring.substring(0, i1);
-        LG.e(s + "haha");
+       // LG.e(s + "haha");
         OkHttpUtils.get().url("http://android.d.cn/rm/red/1" + s).build().execute(new StringCallback() {
             @Override
             public void onError(Call call, Exception e, int id) {
@@ -57,53 +110,16 @@ public class DataParser {
                 try {
                     JSONObject jsonObject = new JSONObject(response);
                     JSONArray pkgs = jsonObject.getJSONArray("pkgs");
-                    String pkgUrl = pkgs.getJSONObject(0).getString("pkgUrl");
+                    String pkgUrl =  pkgs.getJSONObject(0).getString("pkgUrl");
 
-                    LG.e(pkgs.toString()+pkgUrl);
+                   // LG.e(pkgs.toString()+ pkgUrl[0]);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
 
             }
         });
-        GameDetail gameDetail = new GameDetail();
-        ArrayList<String> picArrayList = new ArrayList<>();
-        try {
-            Document doc = Jsoup.connect(link).get();
-            //获取游戏icon
-            String appIcon = doc.select("div.de-head-l").select("img").attr("src");
-            gameDetail.setGameIcon(appIcon);
-            //获取游戏名称（英文和中文）de-app-des
-            String appName = doc.select("h1.notag").text();
-            String appEnName = doc.select("h2.de-app-en.notag-h2").text();
-            gameDetail.setGameName(appName);
-            gameDetail.setGameEnName(appEnName);
-            //游戏下载链接(网站是动态加载的，获取不到链接，以后再说)
-            //String appDownLoad = doc.select("div.de-has-set.clearfix").select("a").outerHtml();
 
-
-            //获取游戏图片链接
-            Elements element1 = doc.select("div.gameimg-screen").select("img");
-            for (int i = 0; i < element1.size(); i++) {
-                picArrayList.add(element1.get(i).attr("src"));
-                // Log.e("weiwei", "游戏名称：" + element1.size() + "图片的链接地址"+picArrayList.get(i));
-            }
-            gameDetail.setGamePic(picArrayList);
-            //获取游戏信息
-            String gameType = doc.select("li.de-game-firm").select("a").text();
-            String allGameType = doc.select("ul.de-game-info.clearfix").text();
-            Elements elements = doc.select("ul.sim-app");
-            String string = elements.toString();
-            for (int i = 0; i < elements.size(); i++) {
-                // String s = elements.select("a").attr("title");
-                // Log.e("weiwei", "数量一共是"+elements.size()+"游戏名称：" );
-            }
-
-            //  Log.e("weiwei", string+"游戏名称：" +appIcon+appName+appEnName + "图片的链接地址"+allGameType+gameType);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return gameDetail;
     }
 
     /**
@@ -156,5 +172,6 @@ public class DataParser {
         }
         return gameArrayList;
     }
+
 
 }

@@ -142,6 +142,7 @@ public class GameFragment extends BaseFragment {
             public void onItemClick(View view, int position) {
                 Intent intent = new Intent(mActivity, GameDetailActivity.class);
                 intent.putExtra("gameLink",arrayList.get(position).getGameDetailLink());
+                intent.putExtra("gameStar",arrayList.get(position).getGameStar());
                 Log.e("weiwei",arrayList.get(position).getGameDetailLink());
                 startActivity(intent);
             }
