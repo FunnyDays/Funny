@@ -10,8 +10,6 @@
     <dimen name="textSize_small">14sp</dimen>
 
 
-
-
     <!--锤子的dimens-->
     <dimen name="smartlist_marginright">50.0px</dimen>
     <dimen name="smartlist_marginleft">36.0px</dimen>
@@ -115,50 +113,50 @@
     <dimen name="quickbar_width">435.0px</dimen>
     <dimen name="quickbar_starting_x">645.0px</dimen>
     <dimen name="smartlist_devider_height">1.0px</dimen>
-    <item type="dimen" name="menuFromDegrees">-7.0</item>
-    <item type="dimen" name="menuToDegrees">97.0</item>
+    <item name="menuFromDegrees" type="dimen">-7.0</item>
+    <item name="menuToDegrees" type="dimen">97.0</item>
     <dimen name="menuChildSize">60.0dip</dimen>
-    <item type="dimen" name="APKTOOL_DUMMY_00c8">false</item>
-    <item type="dimen" name="APKTOOL_DUMMY_00c9">false</item>
-    <item type="dimen" name="APKTOOL_DUMMY_00ca">false</item>
-    <item type="dimen" name="APKTOOL_DUMMY_00cb">false</item>
-    <item type="dimen" name="APKTOOL_DUMMY_00cc">false</item>
-    <item type="dimen" name="APKTOOL_DUMMY_00cd">false</item>
-    <item type="dimen" name="APKTOOL_DUMMY_00ce">false</item>
-    <item type="dimen" name="APKTOOL_DUMMY_00cf">false</item>
-    <item type="dimen" name="APKTOOL_DUMMY_00d0">false</item>
-    <item type="dimen" name="APKTOOL_DUMMY_00d1">false</item>
-    <item type="dimen" name="APKTOOL_DUMMY_00d2">false</item>
-    <item type="dimen" name="APKTOOL_DUMMY_00d3">false</item>
-    <item type="dimen" name="APKTOOL_DUMMY_00d4">false</item>
-    <item type="dimen" name="APKTOOL_DUMMY_00d5">false</item>
-    <item type="dimen" name="APKTOOL_DUMMY_00d6">false</item>
-    <item type="dimen" name="APKTOOL_DUMMY_00d7">false</item>
-    <item type="dimen" name="APKTOOL_DUMMY_00d8">false</item>
-    <item type="dimen" name="APKTOOL_DUMMY_00d9">false</item>
-    <item type="dimen" name="APKTOOL_DUMMY_00da">false</item>
-    <item type="dimen" name="APKTOOL_DUMMY_00db">false</item>
-    <item type="dimen" name="APKTOOL_DUMMY_00dc">false</item>
-    <item type="dimen" name="APKTOOL_DUMMY_00dd">false</item>
-    <item type="dimen" name="APKTOOL_DUMMY_00de">false</item>
-    <item type="dimen" name="APKTOOL_DUMMY_00df">false</item>
-    <item type="dimen" name="APKTOOL_DUMMY_00e0">false</item>
-    <item type="dimen" name="APKTOOL_DUMMY_00e1">false</item>
-    <item type="dimen" name="APKTOOL_DUMMY_00e2">false</item>
-    <item type="dimen" name="APKTOOL_DUMMY_00e3">false</item>
-    <item type="dimen" name="APKTOOL_DUMMY_00e4">false</item>
-    <item type="dimen" name="APKTOOL_DUMMY_00e5">false</item>
-    <item type="dimen" name="APKTOOL_DUMMY_00e6">false</item>
-    <item type="dimen" name="APKTOOL_DUMMY_00e7">false</item>
-    <item type="dimen" name="APKTOOL_DUMMY_00e8">false</item>
-    <item type="dimen" name="APKTOOL_DUMMY_00e9">false</item>
-    <item type="dimen" name="APKTOOL_DUMMY_00ea">false</item>
-    <item type="dimen" name="APKTOOL_DUMMY_00eb">false</item>
-    <item type="dimen" name="APKTOOL_DUMMY_00ec">false</item>
-    <item type="dimen" name="APKTOOL_DUMMY_00ed">false</item>
-    <item type="dimen" name="APKTOOL_DUMMY_00ee">false</item>
-    <item type="dimen" name="APKTOOL_DUMMY_00ef">false</item>
-    <item type="dimen" name="APKTOOL_DUMMY_00f0">false</item>
-    <item type="dimen" name="APKTOOL_DUMMY_00f1">false</item>
-    <item type="dimen" name="APKTOOL_DUMMY_00f2">false</item>
+    <item name="APKTOOL_DUMMY_00c8" type="dimen">false</item>
+    <item name="APKTOOL_DUMMY_00c9" type="dimen">false</item>
+    <item name="APKTOOL_DUMMY_00ca" type="dimen">false</item>
+    <item name="APKTOOL_DUMMY_00cb" type="dimen">false</item>
+    <item name="APKTOOL_DUMMY_00cc" type="dimen">false</item>
+    <item name="APKTOOL_DUMMY_00cd" type="dimen">false</item>
+    <item name="APKTOOL_DUMMY_00ce" type="dimen">false</item>
+    <item name="APKTOOL_DUMMY_00cf" type="dimen">false</item>
+    <item name="APKTOOL_DUMMY_00d0" type="dimen">false</item>
+    <item name="APKTOOL_DUMMY_00d1" type="dimen">false</item>
+    <item name="APKTOOL_DUMMY_00d2" type="dimen">false</item>
+    <item name="APKTOOL_DUMMY_00d3" type="dimen">false</item>
+    <item name="APKTOOL_DUMMY_00d4" type="dimen">false</item>
+    <item name="APKTOOL_DUMMY_00d5" type="dimen">false</item>
+    <item name="APKTOOL_DUMMY_00d6" type="dimen">false</item>
+    <item name="APKTOOL_DUMMY_00d7" type="dimen">false</item>
+    <item name="APKTOOL_DUMMY_00d8" type="dimen">false</item>
+    <item name="APKTOOL_DUMMY_00d9" type="dimen">false</item>
+    <item name="APKTOOL_DUMMY_00da" type="dimen">false</item>
+    <item name="APKTOOL_DUMMY_00db" type="dimen">false</item>
+    <item name="APKTOOL_DUMMY_00dc" type="dimen">false</item>
+    <item name="APKTOOL_DUMMY_00dd" type="dimen">false</item>
+    <item name="APKTOOL_DUMMY_00de" type="dimen">false</item>
+    <item name="APKTOOL_DUMMY_00df" type="dimen">false</item>
+    <item name="APKTOOL_DUMMY_00e0" type="dimen">false</item>
+    <item name="APKTOOL_DUMMY_00e1" type="dimen">false</item>
+    <item name="APKTOOL_DUMMY_00e2" type="dimen">false</item>
+    <item name="APKTOOL_DUMMY_00e3" type="dimen">false</item>
+    <item name="APKTOOL_DUMMY_00e4" type="dimen">false</item>
+    <item name="APKTOOL_DUMMY_00e5" type="dimen">false</item>
+    <item name="APKTOOL_DUMMY_00e6" type="dimen">false</item>
+    <item name="APKTOOL_DUMMY_00e7" type="dimen">false</item>
+    <item name="APKTOOL_DUMMY_00e8" type="dimen">false</item>
+    <item name="APKTOOL_DUMMY_00e9" type="dimen">false</item>
+    <item name="APKTOOL_DUMMY_00ea" type="dimen">false</item>
+    <item name="APKTOOL_DUMMY_00eb" type="dimen">false</item>
+    <item name="APKTOOL_DUMMY_00ec" type="dimen">false</item>
+    <item name="APKTOOL_DUMMY_00ed" type="dimen">false</item>
+    <item name="APKTOOL_DUMMY_00ee" type="dimen">false</item>
+    <item name="APKTOOL_DUMMY_00ef" type="dimen">false</item>
+    <item name="APKTOOL_DUMMY_00f0" type="dimen">false</item>
+    <item name="APKTOOL_DUMMY_00f1" type="dimen">false</item>
+    <item name="APKTOOL_DUMMY_00f2" type="dimen">false</item>
 </resources>

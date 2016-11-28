@@ -47,9 +47,9 @@ public class GameAdapter extends RecyclerView.Adapter {
         void onItemClick(View view, int position);
     }
 
-    private GameDetailPicAdapter.OnItemClickLitener mOnItemClickLitener;
+    private OnItemClickLitener mOnItemClickLitener;
 
-    public void setOnItemClickLitener(GameDetailPicAdapter.OnItemClickLitener mOnItemClickLitener)
+    public void setOnItemClickLitener(OnItemClickLitener mOnItemClickLitener)
     {
         this.mOnItemClickLitener = mOnItemClickLitener;
     }

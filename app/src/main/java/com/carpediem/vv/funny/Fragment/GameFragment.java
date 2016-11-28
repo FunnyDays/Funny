@@ -137,12 +137,13 @@ public class GameFragment extends BaseFragment {
         linearLayoutManager = new LinearLayoutManager(mActivity);
         recyclerView.setLayoutManager(linearLayoutManager);
         mAdapter = new GameAdapter(mActivity, arrayList);
-        mAdapter.setOnItemClickLitener(new GameDetailPicAdapter.OnItemClickLitener() {
+        mAdapter.setOnItemClickLitener(new GameAdapter.OnItemClickLitener() {
             @Override
             public void onItemClick(View view, int position) {
                 Intent intent = new Intent(mActivity, GameDetailActivity.class);
                 intent.putExtra("gameLink",arrayList.get(position).getGameDetailLink());
                 intent.putExtra("gameStar",arrayList.get(position).getGameStar());
+                intent.putExtra("gameName",arrayList.get(position).getGameName());
                 Log.e("weiwei",arrayList.get(position).getGameDetailLink());
                 startActivity(intent);
             }

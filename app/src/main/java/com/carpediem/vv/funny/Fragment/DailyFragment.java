@@ -97,7 +97,6 @@ public class DailyFragment extends BaseFragment {
 
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView_gif);
         initRecyclerView();
-
         return view;
     }
 

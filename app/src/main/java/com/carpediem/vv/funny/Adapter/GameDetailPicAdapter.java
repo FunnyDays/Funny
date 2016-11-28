@@ -96,10 +96,10 @@ public class GameDetailPicAdapter extends RecyclerView.Adapter {
         }
         //如果设置了回调，则设置点击事件
         if (mOnItemClickLitener != null) {
-            holder.itemView.setOnClickListener(new View.OnClickListener() {
+            ((ItemViewHolder) holder).imageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mOnItemClickLitener.onItemClick(holder.itemView, position);
+                    mOnItemClickLitener.onItemClick(((ItemViewHolder) holder).imageView, position);
                 }
             });
 
