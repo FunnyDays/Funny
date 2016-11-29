@@ -42,9 +42,9 @@ public class MainFragment extends BaseFragment implements ViewPager.OnPageChange
         // 初始化ViewPager的数据
         arrayList = new ArrayList<>();
 
+      /*  arrayList.add(new TestFragment(mActivity));
         arrayList.add(new TestFragment(mActivity));
-        arrayList.add(new TestFragment(mActivity));
-        arrayList.add(new TestFragment(mActivity));
+        arrayList.add(new TestFragment(mActivity));*/
         //绑定数据
         ContentAdapter contentAdapter = new ContentAdapter();
         vpContentFragment.setAdapter(contentAdapter);

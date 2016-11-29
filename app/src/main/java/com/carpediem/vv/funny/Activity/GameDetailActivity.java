@@ -185,9 +185,9 @@ public class GameDetailActivity extends AppCompatActivity {
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.menu_share:
-                        T.show(GameDetailActivity.this, "分享");
                         new ShareAction(GameDetailActivity.this).withText("hello")
-                                .setDisplayList(SHARE_MEDIA.SINA,SHARE_MEDIA.QQ,SHARE_MEDIA.WEIXIN)
+                                .setDisplayList(SHARE_MEDIA.SINA,SHARE_MEDIA.QQ,
+                                        SHARE_MEDIA.WEIXIN,SHARE_MEDIA.EMAIL,SHARE_MEDIA.SMS)
                                 .setCallback(umShareListener).open();
                         break;
                 }

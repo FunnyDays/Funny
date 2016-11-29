@@ -2,6 +2,7 @@ package com.carpediem.vv.funny;
 
 import android.app.Application;
 
+import com.arialyy.downloadutil.core.DownloadManager;
 import com.umeng.socialize.Config;
 import com.umeng.socialize.PlatformConfig;
 import com.umeng.socialize.UMShareAPI;
@@ -23,7 +24,10 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        //分享初始化
         UMShareAPI.get(this);
+        //下载初始化
+        DownloadManager.init(this);
     }
 
 }
