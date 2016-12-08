@@ -88,6 +88,11 @@ public class GameFragment extends BaseFragment {
                 if (msg.what == 1) {
                     mAdapter.notifyDataSetChanged();
                     refreshLayout.setRefreshing(false);
+                    if (!NetUtils.checkNetWorkIsAvailable(mActivity)){
+                        mLoadingLayout.setStatus(LoadingLayout.No_Network);//无网络
+                    }else {
+                        mLoadingLayout.setStatus(LoadingLayout.Success);//成功
+                    }
                 }
             }
         };
@@ -134,11 +139,12 @@ public class GameFragment extends BaseFragment {
 
             @Override
             public void onReload(View v) {
-                Toast.makeText(mActivity, "重试", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(mActivity, "重试", Toast.LENGTH_SHORT).show();
                 initEmptyView();
+                initData();
             }
         });
-        if (NetUtils.checkNetWorkIsAvailable(mActivity)){
+        if (!NetUtils.checkNetWorkIsAvailable(mActivity)){
             mLoadingLayout.setStatus(LoadingLayout.No_Network);//无网络
             return;
         }
@@ -153,6 +159,7 @@ public class GameFragment extends BaseFragment {
                 curPage=1;
                 action=STATE_REFRESH;
                 initData();
+
             }
         });
     }

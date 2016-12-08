@@ -27,6 +27,8 @@ import com.carpediem.vv.funny.Adapter.GameDetailPicAdapter;
 import com.carpediem.vv.funny.DataParserBean.DataParser;
 import com.carpediem.vv.funny.R;
 import com.carpediem.vv.funny.Utils.LG;
+import com.carpediem.vv.funny.Utils.Loading.LoadingLayout;
+import com.carpediem.vv.funny.Utils.NetUtils;
 import com.carpediem.vv.funny.Utils.T;
 import com.carpediem.vv.funny.bean.GameBean.GameDetail;
 import com.umeng.socialize.ShareAction;
@@ -56,6 +58,7 @@ public class GameDetailActivity extends AppCompatActivity {
     private TextView textView, textView1, textView2, textView3, textView8, textView9, textView10,
             textView4, textView5, textView6, textView7;
     private String gameNameTitle;
+    private LoadingLayout mLoadingLayout;
 
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,6 +70,8 @@ public class GameDetailActivity extends AppCompatActivity {
     }
 
     private void initView() {
+        mLoadingLayout = (LoadingLayout)findViewById(R.id.empty_view_game);
+        initEmptyView();
         gamePic = (ImageView) findViewById(R.id.iv_game_pic);
         gameName = (TextView) findViewById(R.id.tv_game_name);
         gameEnName = (TextView) findViewById(R.id.tv_game_name_en);
@@ -108,7 +113,25 @@ public class GameDetailActivity extends AppCompatActivity {
 
 
     }
+    /**
+     * 空布局
+     */
+    private void initEmptyView() {
+        mLoadingLayout.setOnReloadListener(new LoadingLayout.OnReloadListener() {
 
+            @Override
+            public void onReload(View v) {
+                //Toast.makeText(mActivity, "重试", Toast.LENGTH_SHORT).show();
+                initEmptyView();
+                initData();
+            }
+        });
+        if (!NetUtils.checkNetWorkIsAvailable(this)){
+            mLoadingLayout.setStatus(LoadingLayout.No_Network);//无网络
+            return;
+        }
+        mLoadingLayout.setStatus(LoadingLayout.Loading);//加载中
+    }
     private void initData() {
         final String gameLink = getIntent().getStringExtra("gameLink");
         gameNameTitle = getIntent().getStringExtra("gameName");
@@ -120,6 +143,12 @@ public class GameDetailActivity extends AppCompatActivity {
             public void handleMessage(Message msg) {
                 super.handleMessage(msg);
                 if (msg.what == 1 && gameDetail != null) {
+                    if (!NetUtils.checkNetWorkIsAvailable(GameDetailActivity.this)){
+                        mLoadingLayout.setStatus(LoadingLayout.No_Network);//无网络
+                        return;
+                    }else {
+                        mLoadingLayout.setStatus(LoadingLayout.Success);//成功
+                    }
                     gamePics.addAll(gameDetail.getGamePic());
                     gameDetailPicAdapter.notifyDataSetChanged();
                     Glide.with(GameDetailActivity.this).load(gameDetail.getGameIcon()).into(gamePic);
@@ -160,6 +189,8 @@ public class GameDetailActivity extends AppCompatActivity {
                             }
                         }
                     });
+
+
 
                 }
             }
