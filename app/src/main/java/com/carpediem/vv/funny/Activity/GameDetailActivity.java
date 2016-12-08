@@ -1,5 +1,6 @@
 package com.carpediem.vv.funny.Activity;
 
+import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -44,7 +45,7 @@ public class GameDetailActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private ArrayList arrayList = null;
     private Toolbar toolbar;
-    private ImageView gamePic, gamePic1, gamePic2, gamePic3,gamePic4;
+    private ImageView gamePic, gamePic1, gamePic2, gamePic3, gamePic4;
     private TextView gameName;
     private TextView gameEnName;
     private RatingBar gameRatingBar;
@@ -99,8 +100,8 @@ public class GameDetailActivity extends AppCompatActivity {
         gameDetailPicAdapter.setOnItemClickLitener(new GameDetailPicAdapter.OnItemClickLitener() {
             @Override
             public void onItemClick(View view, int position) {
-                startActivity(new Intent(GameDetailActivity.this,imageDetailPagerActivity.class)
-                        .putStringArrayListExtra("gameLink",gamePics));
+                startActivity(new Intent(GameDetailActivity.this, imageDetailPagerActivity.class)
+                        .putStringArrayListExtra("gameLink", gamePics));
             }
         });
         recyclerView.setAdapter(gameDetailPicAdapter);
@@ -113,7 +114,8 @@ public class GameDetailActivity extends AppCompatActivity {
         gameNameTitle = getIntent().getStringExtra("gameName");
         gameStar = getIntent().getFloatExtra("gameStar", 5);
         final Handler handler = new Handler() {
-            private Boolean mState=false;
+            private Boolean mState = false;
+
             @Override
             public void handleMessage(Message msg) {
                 super.handleMessage(msg);
@@ -143,17 +145,18 @@ public class GameDetailActivity extends AppCompatActivity {
                     gamePic4.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            if (mState){
+                            if (mState) {
                                 mState = false;
                                 textView7.setEllipsize(TextUtils.TruncateAt.END);
                                 textView7.setMaxLines(3);
-                                gamePic4.setImageResource(R.drawable.ic_open_more_text);
-                            }else {
+                                ObjectAnimator animator3 = ObjectAnimator.ofFloat(gamePic4, "rotation", 180f, 360f);
+                                animator3.setDuration(500).start();
+                            } else {
                                 mState = true;
                                 textView7.setEllipsize(null);
                                 textView7.setMaxLines(Integer.MAX_VALUE);
-                                gamePic4.setImageResource(R.drawable.ic_close_more_text);
-
+                                ObjectAnimator animator3 = ObjectAnimator.ofFloat(gamePic4, "rotation", 0f, 180f);
+                                animator3.setDuration(500).start();
                             }
                         }
                     });
@@ -186,8 +189,8 @@ public class GameDetailActivity extends AppCompatActivity {
                 switch (item.getItemId()) {
                     case R.id.menu_share:
                         new ShareAction(GameDetailActivity.this).withText("hello")
-                                .setDisplayList(SHARE_MEDIA.SINA,SHARE_MEDIA.QQ,
-                                        SHARE_MEDIA.WEIXIN,SHARE_MEDIA.EMAIL,SHARE_MEDIA.SMS)
+                                .setDisplayList(SHARE_MEDIA.SINA, SHARE_MEDIA.QQ,
+                                        SHARE_MEDIA.WEIXIN, SHARE_MEDIA.EMAIL, SHARE_MEDIA.SMS)
                                 .setCallback(umShareListener).open();
                         break;
                 }
@@ -201,10 +204,11 @@ public class GameDetailActivity extends AppCompatActivity {
             }
         });
     }
+
     private UMShareListener umShareListener = new UMShareListener() {
         @Override
         public void onResult(SHARE_MEDIA platform) {
-            Log.d("plat","platform"+platform);
+            Log.d("plat", "platform" + platform);
 
             Toast.makeText(GameDetailActivity.this, platform + " 分享成功啦", Toast.LENGTH_SHORT).show();
 
@@ -212,17 +216,18 @@ public class GameDetailActivity extends AppCompatActivity {
 
         @Override
         public void onError(SHARE_MEDIA platform, Throwable t) {
-            Toast.makeText(GameDetailActivity.this,platform + " 分享失败啦", Toast.LENGTH_SHORT).show();
-            if(t!=null){
-                Log.d("throw","throw:"+t.getMessage());
+            Toast.makeText(GameDetailActivity.this, platform + " 分享失败啦", Toast.LENGTH_SHORT).show();
+            if (t != null) {
+                Log.d("throw", "throw:" + t.getMessage());
             }
         }
 
         @Override
         public void onCancel(SHARE_MEDIA platform) {
-            Toast.makeText(GameDetailActivity.this,platform + " 分享取消了", Toast.LENGTH_SHORT).show();
+            Toast.makeText(GameDetailActivity.this, platform + " 分享取消了", Toast.LENGTH_SHORT).show();
         }
     };
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

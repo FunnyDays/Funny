@@ -3,6 +3,7 @@ package com.carpediem.vv.funny;
 import android.app.Application;
 
 import com.arialyy.downloadutil.core.DownloadManager;
+import com.carpediem.vv.funny.Utils.Loading.LoadingLayout;
 import com.umeng.socialize.Config;
 import com.umeng.socialize.PlatformConfig;
 import com.umeng.socialize.UMShareAPI;
@@ -28,6 +29,23 @@ public class App extends Application {
         UMShareAPI.get(this);
         //下载初始化
         DownloadManager.init(this);
+        //空布局初始化
+        initLoadView();
+    }
+    private void initLoadView() {
+        LoadingLayout.getConfig()
+                .setErrorText("出错啦~请稍后重试！")
+                .setEmptyText("抱歉，暂无数据")
+                .setNoNetworkText("无网络连接，请检查您的网络···")
+                .setErrorImage(R.mipmap.error)
+                .setEmptyImage(R.mipmap.empty)
+                .setNoNetworkImage(R.mipmap.no_network)
+                .setAllTipTextColor(R.color.colorAccent)
+                .setAllTipTextSize(14)
+                .setReloadButtonText("点我重试哦")
+                .setReloadButtonTextSize(14)
+                .setReloadButtonTextColor(R.color.colorAccent)
+                .setReloadButtonWidthAndHeight(150,40);
     }
 
 }

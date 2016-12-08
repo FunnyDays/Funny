@@ -27,6 +27,8 @@ import com.carpediem.vv.funny.DataParserBean.DataParser;
 import com.carpediem.vv.funny.R;
 
 import com.carpediem.vv.funny.Utils.IntentUtils;
+import com.carpediem.vv.funny.Utils.Loading.LoadingLayout;
+import com.carpediem.vv.funny.Utils.NetUtils;
 import com.carpediem.vv.funny.Utils.T;
 import com.carpediem.vv.funny.bean.FunnyGIF.FunnyGif;
 import com.carpediem.vv.funny.bean.GameBean.Game;
@@ -63,6 +65,7 @@ public class GameFragment extends BaseFragment {
     private LinearLayoutManager linearLayoutManager;
     private GameAdapter mAdapter;
     private boolean queryDone;
+    private LoadingLayout mLoadingLayout;
 
     public static GameFragment newInstance(String content) {
         Bundle args = new Bundle();
@@ -114,11 +117,32 @@ public class GameFragment extends BaseFragment {
     @Override
     protected View initView() {
         View view = View.inflate(mActivity, R.layout.fragment_game, null);
+        mLoadingLayout = (LoadingLayout) view.findViewById(R.id.empty_view_game);
+        initEmptyView();
         refreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.SwipeRefreshLayout);
         initRefreshlayout();
         recyclerView = (RecyclerView) view.findViewById(R.id.RecyclerView);
         initRecyclerView();
         return view;
+    }
+
+    /**
+     * 空布局
+     */
+    private void initEmptyView() {
+        mLoadingLayout.setOnReloadListener(new LoadingLayout.OnReloadListener() {
+
+            @Override
+            public void onReload(View v) {
+                Toast.makeText(mActivity, "重试", Toast.LENGTH_SHORT).show();
+                initEmptyView();
+            }
+        });
+        if (NetUtils.checkNetWorkIsAvailable(mActivity)){
+            mLoadingLayout.setStatus(LoadingLayout.No_Network);//无网络
+            return;
+        }
+        mLoadingLayout.setStatus(LoadingLayout.Loading);//加载中
     }
 
     private void initRefreshlayout() {
