@@ -88,9 +88,9 @@ public class GameFragment extends BaseFragment {
                 if (msg.what == 1) {
                     mAdapter.notifyDataSetChanged();
                     refreshLayout.setRefreshing(false);
-                    if (!NetUtils.checkNetWorkIsAvailable(mActivity)){
+                    if (!NetUtils.checkNetWorkIsAvailable(mActivity)) {
                         mLoadingLayout.setStatus(LoadingLayout.No_Network);//无网络
-                    }else {
+                    } else {
                         mLoadingLayout.setStatus(LoadingLayout.Success);//成功
                     }
                 }
@@ -99,23 +99,31 @@ public class GameFragment extends BaseFragment {
         new Thread() {
             @Override
             public void run() {
-                ParserHtml(curPage, action);
-                Message message = new Message();
-                message.what = 1;
-                handler.sendMessage(message);
+                if (ParserHtml(curPage, action)) {
+                    Message message = new Message();
+                    message.what = 1;
+                    handler.sendMessage(message);
+                }
+                else {
+
+                }
             }
         }.start();
     }
 
-    private void ParserHtml(int page, int action) {
+    private Boolean ParserHtml(int page, int action) {
         if (action == STATE_REFRESH) {
             ArrayList<Game> gameArrayList1 = DataParser.getAllGame(page);
             arrayList.addAll(gameArrayList1);
-
         }
         if (action == STATE_MORE) {
             ArrayList<Game> gameArrayList1 = DataParser.getAllGame(page);
             arrayList.addAll(gameArrayList1);
+        }
+        if (arrayList.size() >= 10) {
+            return true;
+        } else {
+            return false;
         }
     }
 
@@ -144,7 +152,7 @@ public class GameFragment extends BaseFragment {
                 initData();
             }
         });
-        if (!NetUtils.checkNetWorkIsAvailable(mActivity)){
+        if (!NetUtils.checkNetWorkIsAvailable(mActivity)) {
             mLoadingLayout.setStatus(LoadingLayout.No_Network);//无网络
             return;
         }
@@ -156,8 +164,8 @@ public class GameFragment extends BaseFragment {
             @Override
             public void onRefresh() {
                 arrayList.clear();
-                curPage=1;
-                action=STATE_REFRESH;
+                curPage = 1;
+                action = STATE_REFRESH;
                 initData();
 
             }
@@ -172,10 +180,10 @@ public class GameFragment extends BaseFragment {
             @Override
             public void onItemClick(View view, int position) {
                 Intent intent = new Intent(mActivity, GameDetailActivity.class);
-                intent.putExtra("gameLink",arrayList.get(position).getGameDetailLink());
-                intent.putExtra("gameStar",arrayList.get(position).getGameStar());
-                intent.putExtra("gameName",arrayList.get(position).getGameName());
-                Log.e("weiwei",arrayList.get(position).getGameDetailLink());
+                intent.putExtra("gameLink", arrayList.get(position).getGameDetailLink());
+                intent.putExtra("gameStar", arrayList.get(position).getGameStar());
+                intent.putExtra("gameName", arrayList.get(position).getGameName());
+                Log.e("weiwei", arrayList.get(position).getGameDetailLink());
                 startActivity(intent);
             }
         });
@@ -240,7 +248,7 @@ public class GameFragment extends BaseFragment {
      */
     private void loadMoreData() {
         curPage++;
-        action=STATE_MORE;
+        action = STATE_MORE;
         initData();
     }
 
