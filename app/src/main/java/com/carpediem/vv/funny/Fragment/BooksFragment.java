@@ -119,7 +119,7 @@ public class BooksFragment extends BaseFragment {
     private void initToolbar() {
         toolbar.setTitle("每日书屋");
         toolbar.inflateMenu(R.menu.test);
-        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+       /* toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 int itemId = item.getItemId();
@@ -132,7 +132,7 @@ public class BooksFragment extends BaseFragment {
                 }
                 return true;
             }
-        });
+        });*/
 
     }
 

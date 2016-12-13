@@ -2,7 +2,7 @@ package com.carpediem.vv.funny;
 
 import android.app.Application;
 
-import com.arialyy.downloadutil.core.DownloadManager;
+
 import com.carpediem.vv.funny.Utils.Loading.LoadingLayout;
 import com.umeng.socialize.Config;
 import com.umeng.socialize.PlatformConfig;
@@ -27,8 +27,6 @@ public class App extends Application {
         super.onCreate();
         //分享初始化
         UMShareAPI.get(this);
-        //下载初始化
-        DownloadManager.init(this);
         //空布局初始化
         initLoadView();
     }
