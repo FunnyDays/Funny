@@ -112,6 +112,7 @@ public class BooksFragment extends BaseFragment {
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView_gif);
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.SwipeRefreshLayout);
         toolbar = (Toolbar) view.findViewById(R.id.toolbar);
+        toolbar.setNavigationIcon(null);
         initToolbar();
         initSwipeRefreshLayout();
         return view;
@@ -119,6 +120,7 @@ public class BooksFragment extends BaseFragment {
     private void initToolbar() {
         toolbar.setTitle("每日书屋");
         toolbar.inflateMenu(R.menu.test);
+
        /* toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {

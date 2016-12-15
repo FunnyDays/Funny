@@ -1,12 +1,22 @@
 package com.carpediem.vv.funny.Fragment;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ListView;
+import android.widget.PopupWindow;
 import android.widget.Toast;
 
 import com.carpediem.vv.funny.Activity.DownLoadActivity;
@@ -25,6 +35,9 @@ public class AllTabFragment extends BaseFragment {
     private Toolbar toolbar;
     private TabLayout tabLayout;
     private ViewPager viewPager;
+    private EditText mEditText;
+    private ImageButton mIbBack;
+    private ImageButton mIbSearch;
 
     public static AllTabFragment newInstance(String content) {
         Bundle args = new Bundle();
@@ -50,7 +63,9 @@ public class AllTabFragment extends BaseFragment {
                         IntentUtils.startActivity(mActivity,DownLoadActivity.class);
                         break;
                     case R.id.ab_search:
-                        Toast.makeText(mActivity, "测试搜索", Toast.LENGTH_SHORT).show();
+                        initPopupWindow(item.getActionView());
+                        InputMethodManager imm = (InputMethodManager) mActivity.getSystemService(mActivity.INPUT_METHOD_SERVICE);
+                        imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
                         break;
                     default:
                         break;
@@ -80,4 +95,41 @@ public class AllTabFragment extends BaseFragment {
     public void initData() {
         Log.e("weiwei","AllTabFragment_initData");
     }
+    private void initPopupWindow(View v) {
+        View view = LayoutInflater.from(mActivity).inflate(R.layout.item_search_popup, null);
+        mEditText = (EditText) view.findViewById(R.id.et_search);
+        mIbBack = (ImageButton) view.findViewById(R.id.ib_back);
+        mIbSearch = (ImageButton) view.findViewById(R.id.ib_search);
+        final PopupWindow popWindow = new PopupWindow(view,
+                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, true);
+        popWindow.setAnimationStyle(R.style.animatorUP);  //设置加载动画
+        popWindow.setBackgroundDrawable(getResources().getDrawable(R.color.colorPrimaryDarkTranslate));    //要为popWindow设置一个背景才有效
+        popWindow.showAtLocation(popWindow.getContentView(), Gravity.TOP,0,0);
+        //设置popupWindow里的按钮的事件
+        view.setOnTouchListener(new View.OnTouchListener() {
+
+            @Override
+            @SuppressLint("ClickableViewAccessibility")
+            public boolean onTouch(View v, MotionEvent event) {
+                popWindow.dismiss();
+                return true;
+            }
+        });
+        mIbBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                popWindow.dismiss();
+            }
+        });
+        mIbSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(mActivity, "搜索功能正在开发", Toast.LENGTH_SHORT).show();
+                popWindow.dismiss();
+            }
+        });
+
+
+    }
+
 }

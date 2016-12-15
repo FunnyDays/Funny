@@ -3,6 +3,7 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="lightColorPrimary">#553F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorPrimaryDarkTranslate">#55303F9F</color>
     <color name="colorAccent">#FF4081</color>
 
     <color name="textColorPrimary">#FFFFFF</color>

@@ -57,4 +57,9 @@
     <style name="style_progressbar" parent="Widget.AppCompat.ProgressBar">
         <item name="android:indeterminateDrawable">@drawable/progressbar</item>
     </style>
+<!--popwindow-->
+    <style name="animatorUP" parent="android:Animation">
+        <item name="android:windowEnterAnimation">@anim/translucent_up_in</item>
+        <item name="android:windowExitAnimation">@anim/translucent_up_out</item>
+    </style>
 </resources>
