@@ -104,6 +104,7 @@ public class GameAdapter extends RecyclerView.Adapter {
 
     @Override
     public int getItemViewType(int position) {
+        Log.e("weiwei1",position+"");
         if (position + 1 == getItemCount()) {
             return TYPE_FOOTER;
         } else {
@@ -114,6 +115,7 @@ public class GameAdapter extends RecyclerView.Adapter {
 
     @Override
     public int getItemCount() {
+
         return arrayList.size() == 0 ? 0 : arrayList.size() + 1;
     }
 

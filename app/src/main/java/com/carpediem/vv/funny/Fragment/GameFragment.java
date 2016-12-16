@@ -4,46 +4,26 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.carpediem.vv.funny.Activity.GameDetailActivity;
 import com.carpediem.vv.funny.Activity.MainActivity;
 import com.carpediem.vv.funny.Adapter.GameAdapter;
-import com.carpediem.vv.funny.Adapter.GameDetailPicAdapter;
 import com.carpediem.vv.funny.Base.BaseFragment;
 
 import com.carpediem.vv.funny.DataParserBean.DataParser;
 import com.carpediem.vv.funny.R;
 
-import com.carpediem.vv.funny.Utils.IntentUtils;
 import com.carpediem.vv.funny.Utils.Loading.LoadingLayout;
 import com.carpediem.vv.funny.Utils.NetUtils;
-import com.carpediem.vv.funny.Utils.T;
-import com.carpediem.vv.funny.bean.FunnyGIF.FunnyGif;
 import com.carpediem.vv.funny.bean.GameBean.Game;
 import com.carpediem.vv.funny.weight.BottomTrackListener;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
-import cn.bmob.v3.BmobQuery;
-import cn.bmob.v3.exception.BmobException;
-import cn.bmob.v3.listener.FindListener;
-import cn.bmob.v3.listener.SaveListener;
 
 /**
  * Created by Administrator on 2016/6/28.
@@ -133,7 +113,7 @@ public class GameFragment extends BaseFragment {
         mLoadingLayout = (LoadingLayout) view.findViewById(R.id.empty_view_game);
         initEmptyView();
         refreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.SwipeRefreshLayout);
-        initRefreshlayout();
+        initRefreshLayout();
         recyclerView = (RecyclerView) view.findViewById(R.id.RecyclerView);
         initRecyclerView();
         return view;
@@ -159,7 +139,7 @@ public class GameFragment extends BaseFragment {
         mLoadingLayout.setStatus(LoadingLayout.Loading);//加载中
     }
 
-    private void initRefreshlayout() {
+    private void initRefreshLayout() {
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -214,6 +194,7 @@ public class GameFragment extends BaseFragment {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
+                Log.e("weiwei2", "loading onScrolled");
                 int lastVisibleItemPosition = linearLayoutManager.findLastVisibleItemPosition();
                 if (!recyclerView.canScrollVertically(-1)) {
                     //T.show(mActivity,"已经到第一条");

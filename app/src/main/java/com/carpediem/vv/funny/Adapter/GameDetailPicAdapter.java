@@ -108,7 +108,6 @@ public class GameDetailPicAdapter extends RecyclerView.Adapter {
 
     @Override
     public int getItemCount() {
-
         return arrayList.size();
     }
 

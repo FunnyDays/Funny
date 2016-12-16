@@ -1,5 +1,6 @@
 package com.carpediem.vv.funny.Fragment;
 
+import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.media.AudioManager;
@@ -104,6 +105,12 @@ public class MusicFragment extends BaseFragment {
                     animator4.setStartDelay(60);
                     //光盘背景旋转动画
                     animator5 = ObjectAnimator.ofFloat(musiRedBg, "rotation", 0f,360f);
+                    animator5.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                        @Override
+                        public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                            Float animatedValue = (Float) valueAnimator.getAnimatedValue();
+                        }
+                    });
                     animator5.setDuration(5000).start();
                     animator5.setRepeatCount(Animation.INFINITE);
                     animator5.setRepeatMode(ValueAnimator.RESTART);
