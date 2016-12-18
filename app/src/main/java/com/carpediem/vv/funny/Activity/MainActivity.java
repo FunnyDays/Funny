@@ -14,6 +14,7 @@ import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.telephony.TelephonyManager;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.WindowManager;
@@ -123,7 +124,7 @@ public class MainActivity extends AppCompatActivity {
                 .addItem(new BottomNavigationItem(R.drawable.ic_home_white_24dp, "每日").setActiveColorResource(R.color.colorPrimary))
                 .addItem(new BottomNavigationItem(R.drawable.ic_book_white_24dp, "书籍").setActiveColorResource(R.color.colorPrimary))
                 .addItem(new BottomNavigationItem(R.drawable.ic_music_note_white_24dp, "音乐").setActiveColorResource(R.color.colorPrimary))
-                .addItem(new BottomNavigationItem(R.drawable.ic_tv_white_24dp, "视频").setActiveColorResource(R.color.colorPrimary))
+                .addItem(new BottomNavigationItem(R.drawable.ic_tv_white_24dp, "电影").setActiveColorResource(R.color.colorPrimary))
                 .addItem(new BottomNavigationItem(R.drawable.ic_person_white_36dp, "设置").setActiveColorResource(R.color.colorPrimary))
                 .setMode(BottomNavigationBar.MODE_FIXED)//设置底部代文字显示模式。MODE_DEFAULT默认MODE_FIXED代文字MODE_SHIFTING不带文字
                 .setBackgroundStyle(BottomNavigationBar.BACKGROUND_STYLE_STATIC)//背景模式BACKGROUND_STYLE_RIPPLE涟漪BACKGROUND_STYLE_STATIC静态
@@ -132,7 +133,6 @@ public class MainActivity extends AppCompatActivity {
             //当前的选中的tab
             @Override
             public void onTabSelected(int position) {
-                Log.e("weiwei", "onTabSelected position:" + position);
                switch (position) {
                     case 0:
                         customViewPager.setCurrentItem(0);
@@ -158,7 +158,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onTabUnselected(int position) {
                 Log.i("tab", "onTabUnselected position:" + position);
-                Log.e("weiwei", "onTabUnselected position:" + position);
 
             }
 
@@ -166,7 +165,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onTabReselected(int position) {
                 Log.i("tab", "onTabReselected position:" + position);
-                Log.e("weiwei", "onTabReselected position:" + position);
                 fragments.get(position).initData();
             }
         });
@@ -220,5 +218,23 @@ public class MainActivity extends AppCompatActivity {
                 break;
         }
     }
-
+    private long firstTime=0;
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        Log.e("wei", ":MainActivity:OnKey事件");
+        if (fragments.get(0) instanceof AllTabFragment){
+            AllTabFragment.onKeyDown(keyCode,event);
+        }
+        if(keyCode==KeyEvent.KEYCODE_BACK && event.getAction()==KeyEvent.ACTION_DOWN){
+            if (System.currentTimeMillis()-firstTime>2000){
+                Toast.makeText(MainActivity.this,"再按一次退出程序",Toast.LENGTH_SHORT).show();
+                firstTime=System.currentTimeMillis();
+            }else{
+                finish();
+                System.exit(0);
+            }
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
 }

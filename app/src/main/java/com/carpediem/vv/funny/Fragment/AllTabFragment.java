@@ -8,9 +8,12 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -23,16 +26,21 @@ import android.view.animation.LinearInterpolator;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.Toast;
 
 import com.carpediem.vv.funny.Activity.DownLoadActivity;
 import com.carpediem.vv.funny.Activity.MainActivity;
+import com.carpediem.vv.funny.Adapter.SearchAdapter;
 import com.carpediem.vv.funny.Adapter.TabsViewPagerAdapter;
 import com.carpediem.vv.funny.Base.BaseFragment;
 import com.carpediem.vv.funny.R;
 import com.carpediem.vv.funny.Utils.IntentUtils;
+import com.carpediem.vv.funny.bean.SearchBean;
+
+import java.util.ArrayList;
 
 /**
  * Created by Administrator on 2016/11/4.
@@ -46,6 +54,7 @@ public class AllTabFragment extends BaseFragment {
     private EditText mEditText;
     private ImageButton mIbBack;
     private ImageButton mIbSearch;
+    private RecyclerView mLvHistory;
 
     public static AllTabFragment newInstance(String content) {
         Bundle args = new Bundle();
@@ -90,9 +99,9 @@ public class AllTabFragment extends BaseFragment {
 
         //viewpager适配器
         TabsViewPagerAdapter adapter = new TabsViewPagerAdapter(((MainActivity) mActivity).getSupportFragmentManager());
-        adapter.addFragment(new DailyFragment(), "今日");
-        adapter.addFragment(new MovieFragment(), "电影");
-        adapter.addFragment(new GameFragment(), "游戏");
+        adapter.addFragment(DailyFragment.newInstance("今日"), "今日");
+        adapter.addFragment(MovieFragment.newInstance("视频"), "视频");
+        adapter.addFragment(GameFragment.newInstance("游戏"), "游戏");
         viewPager.setAdapter(adapter);
         viewPager.setOffscreenPageLimit(2);
         tabLayout.setupWithViewPager(viewPager);
@@ -104,32 +113,75 @@ public class AllTabFragment extends BaseFragment {
         Log.e("weiwei", "AllTabFragment_initData");
     }
 
+    /**
+     * popupWindow弹窗
+     * @param v
+     */
     private void initPopupWindow(View v) {
-        final View view = LayoutInflater.from(mActivity).inflate(R.layout.item_search_popup, null);
-        mEditText = (EditText) view.findViewById(R.id.et_search);
-        mIbBack = (ImageButton) view.findViewById(R.id.ib_back);
-        mIbSearch = (ImageButton) view.findViewById(R.id.ib_search);
-        final PopupWindow popWindow = new PopupWindow(view,
+        final View searchView = LayoutInflater.from(mActivity).inflate(R.layout.item_search_popup, null);
+
+        mEditText = (EditText) searchView.findViewById(R.id.et_search);
+        mIbBack = (ImageButton) searchView.findViewById(R.id.ib_back);
+        mIbSearch = (ImageButton) searchView.findViewById(R.id.ib_search);
+        mLvHistory = (RecyclerView) searchView.findViewById(R.id.lv_history);
+        initRecyclerView();
+        final PopupWindow popWindow = new PopupWindow(searchView,
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, true);
         popWindow.setAnimationStyle(R.style.animatorUP);  //设置加载动画
         popWindow.setBackgroundDrawable(getResources().getDrawable(R.color.colorPrimaryDarkTranslate));    //要为popWindow设置一个背景才有效
         popWindow.showAtLocation(popWindow.getContentView(), Gravity.TOP, 0, 0);
-        view.setOnClickListener(new View.OnClickListener() {
+        searchView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Animator animator = startAnimationCir(view);
-                animator.addListener(new AnimatorListenerAdapter() {
-                    @Override
-                    public void onAnimationEnd(Animator animation) {
+                if (animator!=null){
+                    animator.addListener(new AnimatorListenerAdapter() {
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            popWindow.dismiss();
+                        }
+                    });
+                }else {
+                    popWindow.dismiss();
+                }
+
+            }
+        });
+        mEditText.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if ( keyCode == KeyEvent.KEYCODE_BACK){
+                    Animator animator = startAnimationCir(searchView);
+                    if (animator!=null){
+                        animator.addListener(new AnimatorListenerAdapter() {
+                            @Override
+                            public void onAnimationEnd(Animator animation) {
+                                popWindow.dismiss();
+                            }
+                        });
+                    }else {
                         popWindow.dismiss();
                     }
-                });
+                }
+                return false;
             }
         });
         mIbBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                popWindow.dismiss();
+                InputMethodManager imm = (InputMethodManager) mActivity.getSystemService(mActivity.INPUT_METHOD_SERVICE);
+                imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
+                Animator animator = startAnimationCir(searchView);
+                if (animator!=null){
+                    animator.addListener(new AnimatorListenerAdapter() {
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            popWindow.dismiss();
+                        }
+                    });
+                }else {
+                    popWindow.dismiss();
+                }
             }
         });
         mIbSearch.setOnClickListener(new View.OnClickListener() {
@@ -143,19 +195,36 @@ public class AllTabFragment extends BaseFragment {
 
     }
 
+    private void initRecyclerView() {
+        ArrayList<SearchBean> beanArrayList = new ArrayList<>();
+        for (int i = 0; i < 8; i++) {
+            SearchBean searchBean = new SearchBean("推荐搜索" + i, "");
+            beanArrayList.add(searchBean);
+        }
+        SearchAdapter searchAdapter = new SearchAdapter(mActivity, beanArrayList);
+        mLvHistory.setLayoutManager(new LinearLayoutManager(mActivity));
+        mLvHistory.setAdapter(searchAdapter);
+    }
+
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private Animator startAnimationCir(View view) {
-
         Animator animator = ViewAnimationUtils.createCircularReveal(
                 view,
-                view.getWidth(),
-                0,
-                view.getWidth(),
+                view.getWidth()- mIbSearch.getWidth()/2-(int)getResources().getDisplayMetrics().density*10,
+                mIbSearch.getHeight()/2+(int)getResources().getDisplayMetrics().density*10,
+                view.getHeight(),
                 0);
         animator.setInterpolator(new LinearInterpolator());
-        animator.setDuration(400);
+        animator.setDuration(300);
         animator.start();
         return animator;
+    }
+    public static boolean onKeyDown(int keyCode, KeyEvent event) {
+        // TODO Auto-generated method stub
+        if (keyCode == event.KEYCODE_BACK) {
+            Log.e("weiwei", "AllTabFragment事件OK");
+        }
+        return true;
     }
 
 }

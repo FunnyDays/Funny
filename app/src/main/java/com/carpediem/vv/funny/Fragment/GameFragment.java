@@ -194,7 +194,6 @@ public class GameFragment extends BaseFragment {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                Log.e("weiwei2", "loading onScrolled");
                 int lastVisibleItemPosition = linearLayoutManager.findLastVisibleItemPosition();
                 if (!recyclerView.canScrollVertically(-1)) {
                     //T.show(mActivity,"已经到第一条");
