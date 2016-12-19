@@ -15,6 +15,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -31,12 +32,21 @@ import com.carpediem.vv.funny.Utils.Loading.LoadingLayout;
 import com.carpediem.vv.funny.Utils.NetUtils;
 import com.carpediem.vv.funny.Utils.T;
 import com.carpediem.vv.funny.bean.GameBean.GameDetail;
+import com.carpediem.vv.funny.weight.ProgressButton;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
+import com.zhy.http.okhttp.OkHttpUtils;
+import com.zhy.http.okhttp.callback.StringCallback;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
+
+import okhttp3.Call;
 
 /**
  * Created by Administrator on 2016/11/21.
@@ -59,6 +69,8 @@ public class GameDetailActivity extends AppCompatActivity {
             textView4, textView5, textView6, textView7;
     private String gameNameTitle;
     private LoadingLayout mLoadingLayout;
+    private ProgressButton mBtInstallGame;
+    private String mGameLink;
 
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,6 +84,10 @@ public class GameDetailActivity extends AppCompatActivity {
     private void initView() {
         mLoadingLayout = (LoadingLayout)findViewById(R.id.empty_view_game);
         initEmptyView();
+        mBtInstallGame = (ProgressButton) findViewById(R.id.bt_install_app);
+        //初始化软件下载
+        initDownload();
+
         gamePic = (ImageView) findViewById(R.id.iv_game_pic);
         gameName = (TextView) findViewById(R.id.tv_game_name);
         gameEnName = (TextView) findViewById(R.id.tv_game_name_en);
@@ -113,6 +129,83 @@ public class GameDetailActivity extends AppCompatActivity {
 
 
     }
+    public Handler handler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            mBtInstallGame.setProgress(msg.arg1);
+        }
+    };
+    private ProgressThread pt;
+    private Boolean isPause = false;
+    private void initDownload() {
+        mBtInstallGame.setTag(0);
+        mBtInstallGame.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getGameDownLoadLink(mGameLink);
+                // 防止开启多个异步线程
+                if((Integer)mBtInstallGame.getTag()==0) {
+                   pt = new ProgressThread();
+                    pt.start();
+                    mBtInstallGame.setTag(1);
+                }
+                if(!mBtInstallGame.isFinish()){
+                    mBtInstallGame.toggle();
+                }
+
+            }
+        });
+        mBtInstallGame.setOnStateListener(new ProgressButton.OnStateListener() {
+            @Override
+            public void onFinish() {
+                isPause = true;
+                synchronized (this) {
+                    pt.interrupt();
+                }
+                mBtInstallGame.setText("完 成");
+                // progressButton.initState();
+                Toast.makeText(GameDetailActivity.this,"Finish",Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onStop() {
+                Log.i("zz","stop");
+                mBtInstallGame.setText("继 续");
+                isPause = true;
+            }
+
+            @Override
+            public void onContinue() {
+                Log.i("zz","continue");
+
+                isPause = false;
+            }
+        });
+    }
+
+    public  class ProgressThread extends Thread{
+
+        private int z = 0;
+        @Override
+        public void run() {
+            while (true) {
+                synchronized (this) {
+                    if (!isPause) {
+                        z += 2;
+                        Message msg = Message.obtain();
+                        msg.arg1 = z;
+                        handler.sendMessage(msg);
+                        try {
+                            Thread.sleep(100);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }
+
+        }
+    }
     /**
      * 空布局
      */
@@ -133,7 +226,7 @@ public class GameDetailActivity extends AppCompatActivity {
         mLoadingLayout.setStatus(LoadingLayout.Loading);//加载中
     }
     private void initData() {
-        final String gameLink = getIntent().getStringExtra("gameLink");
+        mGameLink = getIntent().getStringExtra("gameLink");
         gameNameTitle = getIntent().getStringExtra("gameName");
         gameStar = getIntent().getFloatExtra("gameStar", 5);
         final Handler handler = new Handler() {
@@ -189,7 +282,24 @@ public class GameDetailActivity extends AppCompatActivity {
                             }
                         }
                     });
-
+                    textView7.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            if (mState) {
+                                mState = false;
+                                textView7.setEllipsize(TextUtils.TruncateAt.END);
+                                textView7.setMaxLines(3);
+                                ObjectAnimator animator3 = ObjectAnimator.ofFloat(gamePic4, "rotation", 180f, 360f);
+                                animator3.setDuration(500).start();
+                            } else {
+                                mState = true;
+                                textView7.setEllipsize(null);
+                                textView7.setMaxLines(Integer.MAX_VALUE);
+                                ObjectAnimator animator3 = ObjectAnimator.ofFloat(gamePic4, "rotation", 0f, 180f);
+                                animator3.setDuration(500).start();
+                            }
+                        }
+                    });
 
 
                 }
@@ -199,11 +309,9 @@ public class GameDetailActivity extends AppCompatActivity {
         new Thread() {
             @Override
             public void run() {
-                gameDetail = DataParser.getGameDetail(gameLink);
+                gameDetail = DataParser.getGameDetail(mGameLink);
                 if (gameDetail != null) {
-                    Message message = new Message();
-                    message.what = 1;
-                    handler.sendMessage(message);
+                  handler.obtainMessage(1).sendToTarget();
                 }
 
             }
@@ -263,5 +371,37 @@ public class GameDetailActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         UMShareAPI.get(this).onActivityResult(requestCode, resultCode, data);
+    }
+
+    /**
+     * 获取游戏下载链接
+     */
+    public static String getGameDownLoadLink(String link) {
+        final String[] mPkgUrl = new String[1];
+        final int[] lastIndexOf = {link.lastIndexOf("/")};
+        String substring = link.substring(lastIndexOf[0]);
+        int i1 = substring.indexOf(".");
+        String s = substring.substring(0, i1);
+        // LG.e(s + "haha");
+        OkHttpUtils.get().url("http://android.d.cn/rm/red/1" + s).build().execute(new StringCallback() {
+            @Override
+            public void onError(Call call, Exception e, int id) {
+            }
+            @Override
+            public void onResponse(String response, int id) {
+                try {
+                    if (response != null) {
+                        JSONObject jsonObject = new JSONObject(response);
+                        JSONArray pkgs = jsonObject.getJSONArray("pkgs");
+                        mPkgUrl[0] = pkgs.getJSONObject(0).getString("pkgUrl");
+
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        });
+        return mPkgUrl[0];
     }
 }

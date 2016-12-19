@@ -59,14 +59,14 @@ public class DataParser {
             Elements element1 = doc.select("div.gameimg-screen").select("img");
             for (int i = 0; i < element1.size(); i++) {
                 picArrayList.add(element1.get(i).attr("src"));
-                 Log.e("weiwei", "游戏名称：" + element1.size() + "图片的链接地址"+picArrayList.get(i));
+                Log.e("weiwei", "游戏名称：" + element1.size() + "图片的链接地址" + picArrayList.get(i));
             }
             gameDetail.setGamePic(picArrayList);
             //获取游戏详细（类型、）信息
             Elements li = doc.select("ul.de-game-info.clearfix").select("li");
             for (int i = 0; i < li.size(); i++) {
                 gameIntroArrayList.add(li.get(i).text());
-                Log.e("weiwei", "数量一共是"+li.size()+"----"+li.get(i).text());
+                Log.e("weiwei", "数量一共是" + li.size() + "----" + li.get(i).text());
             }
             gameDetail.setGameAllIntro(gameIntroArrayList);
             //获取游戏详细介绍
@@ -92,34 +92,31 @@ public class DataParser {
     /**
      * 获取游戏下载链接
      */
-    private static void getGameDownLoadLink(String link) {
+    public static String getGameDownLoadLink(String link) {
+        final String[] mPkgUrl = new String[1];
         final int[] lastIndexOf = {link.lastIndexOf("/")};
         String substring = link.substring(lastIndexOf[0]);
         int i1 = substring.indexOf(".");
         String s = substring.substring(0, i1);
-       // LG.e(s + "haha");
+        // LG.e(s + "haha");
         OkHttpUtils.get().url("http://android.d.cn/rm/red/1" + s).build().execute(new StringCallback() {
             @Override
             public void onError(Call call, Exception e, int id) {
-
             }
-
             @Override
             public void onResponse(String response, int id) {
-
                 try {
                     JSONObject jsonObject = new JSONObject(response);
                     JSONArray pkgs = jsonObject.getJSONArray("pkgs");
-                    String pkgUrl =  pkgs.getJSONObject(0).getString("pkgUrl");
-
-                   // LG.e(pkgs.toString()+ pkgUrl[0]);
+                    mPkgUrl[0] = pkgs.getJSONObject(0).getString("pkgUrl");
+                    Log.e("xiazai",pkgs.toString()+ mPkgUrl[0] +"");
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
 
             }
         });
-
+        return mPkgUrl[0];
     }
 
     /**

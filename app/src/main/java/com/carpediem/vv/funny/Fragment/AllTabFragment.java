@@ -99,11 +99,11 @@ public class AllTabFragment extends BaseFragment {
 
         //viewpager适配器
         TabsViewPagerAdapter adapter = new TabsViewPagerAdapter(((MainActivity) mActivity).getSupportFragmentManager());
-        adapter.addFragment(DailyFragment.newInstance("今日"), "今日");
+        adapter.addFragment(MovieFragment.newInstance("视频"), "视频");
         adapter.addFragment(MovieFragment.newInstance("视频"), "视频");
         adapter.addFragment(GameFragment.newInstance("游戏"), "游戏");
         viewPager.setAdapter(adapter);
-        viewPager.setOffscreenPageLimit(2);
+        viewPager.setOffscreenPageLimit(1);
         tabLayout.setupWithViewPager(viewPager);
         return view;
     }
@@ -133,6 +133,8 @@ public class AllTabFragment extends BaseFragment {
         searchView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                InputMethodManager imm = (InputMethodManager) mActivity.getSystemService(mActivity.INPUT_METHOD_SERVICE);
+                imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
                 Animator animator = startAnimationCir(view);
                 if (animator!=null){
                     animator.addListener(new AnimatorListenerAdapter() {

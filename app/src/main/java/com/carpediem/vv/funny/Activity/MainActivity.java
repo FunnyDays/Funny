@@ -118,7 +118,7 @@ public class MainActivity extends AppCompatActivity {
         getFragments();
         customViewPager = (CustomViewPager) findViewById(R.id.main_fragment);
         customViewPager.setAdapter(adapter);
-        customViewPager.setOffscreenPageLimit(4);//设置缓存页数，缓存所有fragment
+        customViewPager.setOffscreenPageLimit(2);//设置缓存页数，缓存所有fragment
         bottomNavigationBar = (BottomNavigationBar) findViewById(R.id.bottom_navigation_bar);
         bottomNavigationBar
                 .addItem(new BottomNavigationItem(R.drawable.ic_home_white_24dp, "每日").setActiveColorResource(R.color.colorPrimary))

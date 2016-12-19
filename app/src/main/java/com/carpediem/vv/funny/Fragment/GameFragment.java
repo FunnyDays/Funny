@@ -80,9 +80,7 @@ public class GameFragment extends BaseFragment {
             @Override
             public void run() {
                 if (ParserHtml(curPage, action)) {
-                    Message message = new Message();
-                    message.what = 1;
-                    handler.sendMessage(message);
+                    handler.obtainMessage(1).sendToTarget();
                 }
                 else {
 
