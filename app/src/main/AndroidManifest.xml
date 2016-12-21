@@ -94,6 +94,7 @@
         <activity android:name=".Activity.imageDetailPagerActivity"/>
         <activity android:name=".Activity.DownLoadActivity">
         </activity>
+        <service android:name=".services.DownLoadServices"></service>
     </application>
 
 </manifest>
