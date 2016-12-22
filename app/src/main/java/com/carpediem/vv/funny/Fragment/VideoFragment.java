@@ -30,7 +30,7 @@ import cn.bmob.v3.listener.FindListener;
 public class VideoFragment extends BaseFragment {
 
     private RecyclerView mRecyclerView;
-    private List<VideoBean> mDatas;
+    private List<VideoBean> mDatas = new ArrayList<VideoBean>();
     private StaggeredHomeAdapter mStaggeredHomeAdapter;
     private RecyclerView recyclerView;
     private SwipeRefreshLayout swipeRefreshLayout;
@@ -47,7 +47,6 @@ public class VideoFragment extends BaseFragment {
     @Override
     public void initData() {
         Log.e("bmob", "：initData开始执行" );
-        mDatas = new ArrayList<VideoBean>();
         BmobQuery<VideoBean> query = new BmobQuery<VideoBean>();
         query.setCachePolicy(BmobQuery.CachePolicy.CACHE_ELSE_NETWORK);
         query.findObjects(new FindListener<VideoBean>() {
@@ -81,7 +80,6 @@ public class VideoFragment extends BaseFragment {
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.SwipeRefreshLayout);
         initSwipeRefreshLayout();
         mRecyclerView = (RecyclerView)view.findViewById(R.id.id_recyclerview);
-        Log.e("bmob", "：" +mDatas.size());
         mStaggeredHomeAdapter = new StaggeredHomeAdapter(mActivity, mDatas);
 
         mRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(2,

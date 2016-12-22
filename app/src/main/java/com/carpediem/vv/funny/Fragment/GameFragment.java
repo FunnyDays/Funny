@@ -61,6 +61,7 @@ public class GameFragment extends BaseFragment {
      */
     @Override
     public void initData() {
+        Log.e("zifragment","initdata");
         final Handler handler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
@@ -109,11 +110,11 @@ public class GameFragment extends BaseFragment {
     protected View initView() {
         View view = View.inflate(mActivity, R.layout.fragment_game, null);
         mLoadingLayout = (LoadingLayout) view.findViewById(R.id.empty_view_game);
-        initEmptyView();
         refreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.SwipeRefreshLayout);
         initRefreshLayout();
         recyclerView = (RecyclerView) view.findViewById(R.id.RecyclerView);
         initRecyclerView();
+        initEmptyView();
         return view;
     }
 

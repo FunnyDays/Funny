@@ -13,9 +13,9 @@ import javax.crypto.Cipher;
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 
-
 import static com.carpediem.vv.funny.Utils.ConvertUtils.bytes2HexString;
 import static com.carpediem.vv.funny.Utils.ConvertUtils.hexString2Bytes;
+
 
 /**
  * <pre>

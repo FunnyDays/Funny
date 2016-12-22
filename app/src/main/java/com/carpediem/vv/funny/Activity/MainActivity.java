@@ -118,7 +118,7 @@ public class MainActivity extends AppCompatActivity {
         getFragments();
         customViewPager = (CustomViewPager) findViewById(R.id.main_fragment);
         customViewPager.setAdapter(adapter);
-        customViewPager.setOffscreenPageLimit(2);//设置缓存页数，缓存所有fragment
+        customViewPager.setOffscreenPageLimit(4);//设置缓存页数，缓存所有fragment
         bottomNavigationBar = (BottomNavigationBar) findViewById(R.id.bottom_navigation_bar);
         bottomNavigationBar
                 .addItem(new BottomNavigationItem(R.drawable.ic_home_white_24dp, "每日").setActiveColorResource(R.color.colorPrimary))
@@ -172,13 +172,12 @@ public class MainActivity extends AppCompatActivity {
 
 
     private ArrayList<BaseFragment> getFragments() {
-
         fragments = new ArrayList<>();
-        fragments.add(new AllTabFragment());
-        fragments.add(new BooksFragment());
-        fragments.add(new MusicFragment());
-        fragments.add(new VideoFragment());
-        fragments.add(new UserFragment());
+        fragments.add(AllTabFragment.newInstance("首页"));
+        fragments.add( BooksFragment.newInstance("书籍"));
+        fragments.add( MusicFragment.newInstance("音乐"));
+        fragments.add( VideoFragment.newInstance("电影"));
+        fragments.add( UserFragment.newInstance());
         adapter = new MainContentVPAdapter(supportFragmentManager, fragments);
         return fragments;
     }

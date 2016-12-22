@@ -10,7 +10,6 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.provider.Settings;
-import android.util.Log;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -62,7 +61,7 @@ public class ProcessUtils {
                         Utils.context.startActivity(intent);
                     }
                     if (aom.checkOpNoThrow(AppOpsManager.OPSTR_GET_USAGE_STATS, info.uid, info.packageName) != AppOpsManager.MODE_ALLOWED) {
-                        Log.d("getForegroundApp", "没有打开\"有权查看使用权限的应用\"选项");
+                        LogUtils.d("getForegroundApp", "没有打开\"有权查看使用权限的应用\"选项");
                         return null;
                     }
                     UsageStatsManager usageStatsManager = (UsageStatsManager) Utils.context.getSystemService(Context.USAGE_STATS_SERVICE);
@@ -81,7 +80,7 @@ public class ProcessUtils {
                     e.printStackTrace();
                 }
             } else {
-                Log.d("getForegroundApp", "无\"有权查看使用权限的应用\"选项");
+                LogUtils.d("getForegroundApp", "无\"有权查看使用权限的应用\"选项");
             }
         }
         return null;
@@ -104,7 +103,7 @@ public class ProcessUtils {
     }
 
     /**
-     * 杀死后台服务进程
+     * 杀死所有的后台服务进程
      * <p>需添加权限 {@code <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES"/>}</p>
      *
      * @return 被暂时杀死的服务集合

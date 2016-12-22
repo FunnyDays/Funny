@@ -33,6 +33,7 @@ import android.widget.Toast;
 
 import com.carpediem.vv.funny.Activity.DownLoadActivity;
 import com.carpediem.vv.funny.Activity.MainActivity;
+import com.carpediem.vv.funny.Adapter.MainContentVPAdapter;
 import com.carpediem.vv.funny.Adapter.SearchAdapter;
 import com.carpediem.vv.funny.Adapter.TabsViewPagerAdapter;
 import com.carpediem.vv.funny.Base.BaseFragment;
@@ -55,6 +56,8 @@ public class AllTabFragment extends BaseFragment {
     private ImageButton mIbBack;
     private ImageButton mIbSearch;
     private RecyclerView mLvHistory;
+    private ArrayList<BaseFragment> fragments;
+    private TabsViewPagerAdapter mAdapter;
 
     public static AllTabFragment newInstance(String content) {
         Bundle args = new Bundle();
@@ -90,27 +93,35 @@ public class AllTabFragment extends BaseFragment {
                 return false;
             }
         });
-        //ViewAnimationUtils.createCircularReveal()
         //tablayout设置
         tabLayout = (TabLayout) view.findViewById(R.id.tabs);
         tabLayout.setSelectedTabIndicatorColor(getResources().getColor(R.color.colorControlNormal));
         viewPager = (ViewPager) view.findViewById(R.id.viewpager);
-
-
         //viewpager适配器
-        TabsViewPagerAdapter adapter = new TabsViewPagerAdapter(((MainActivity) mActivity).getSupportFragmentManager());
-        adapter.addFragment(MovieFragment.newInstance("视频"), "视频");
-        adapter.addFragment(MovieFragment.newInstance("视频"), "视频");
-        adapter.addFragment(GameFragment.newInstance("游戏"), "游戏");
-        viewPager.setAdapter(adapter);
-        viewPager.setOffscreenPageLimit(1);
+        getFragments();
+        mAdapter.addFragment(fragments.get(0), "视频");
+        mAdapter.addFragment(fragments.get(1), "视频");
+        mAdapter.addFragment(fragments.get(2), "游戏");
+        viewPager.setAdapter(mAdapter);
+        viewPager.setOffscreenPageLimit(2);
         tabLayout.setupWithViewPager(viewPager);
         return view;
     }
-
+    private ArrayList<BaseFragment> getFragments() {
+        fragments = new ArrayList<>();
+        fragments.add(MovieFragment.newInstance("视频"));
+        fragments.add(MovieFragment.newInstance("视频"));
+        fragments.add(GameFragment.newInstance("游戏"));
+        mAdapter = new TabsViewPagerAdapter(((MainActivity) mActivity).getSupportFragmentManager());
+        return fragments;
+    }
     @Override
     public void initData() {
-        Log.e("weiwei", "AllTabFragment_initData");
+        int tabPosition = tabLayout.getSelectedTabPosition();
+       /* fragments.get(0).initData();
+        fragments.get(1).initData();
+        fragments.get(2).initData();*/
+        Log.e("weiwei12", "AllTabFragment_initData"+tabPosition);
     }
 
     /**

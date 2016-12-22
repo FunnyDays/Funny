@@ -2,6 +2,7 @@ package com.carpediem.vv.funny.Fragment;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -32,17 +33,20 @@ import cn.bmob.v3.listener.FindListener;
  * Created by Administrator on 2016/6/28.
  */
 public class BooksFragment extends BaseFragment {
-
-
-
     private RecyclerView recyclerView;
     private BookAdapter mAdapter;
     private SwipeRefreshLayout swipeRefreshLayout;
-    private Handler handler  = new Handler();
     private ArrayList<BookTopic> bookTopics= new ArrayList<>();
     private ArrayList<Book> bookList= new ArrayList<>();
     private Toolbar toolbar;
-
+   Handler handler = new Handler(){
+       @Override
+       public void handleMessage(Message msg) {
+           super.handleMessage(msg);
+           swipeRefreshLayout.setRefreshing(false);
+           mAdapter.notifyDataSetChanged();
+       }
+   };
 
     public static BooksFragment newInstance(String content) {
         Bundle args = new Bundle();
@@ -89,9 +93,8 @@ public class BooksFragment extends BaseFragment {
                                     Log.e("bookTopic","bookTopic查询的数据"+book.getBookName()+book.getBookInfo());
                                     bookList.add(book);
                                 }
+                                handler.obtainMessage(1).sendToTarget();
 
-                                swipeRefreshLayout.setRefreshing(false);
-                                mAdapter.notifyDataSetChanged();
                             }
                         });
                     }

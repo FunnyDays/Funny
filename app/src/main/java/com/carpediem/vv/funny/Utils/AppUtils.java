@@ -9,7 +9,6 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
 import android.graphics.drawable.Drawable;
-import android.util.Log;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -88,15 +87,14 @@ public class AppUtils {
      * 静默安装App
      * <p>非root需添加权限 {@code <uses-permission android:name="android.permission.INSTALL_PACKAGES" />}</p>
      *
-     * @param context  上下文
      * @param filePath 文件路径
      * @return {@code true}: 安装成功<br>{@code false}: 安装失败
      */
-    public static boolean installAppSilent(Context context, String filePath) {
+    public static boolean installAppSilent(String filePath) {
         File file = FileUtils.getFileByPath(filePath);
         if (!FileUtils.isFileExists(file)) return false;
         String command = "LD_LIBRARY_PATH=/vendor/lib:/system/lib pm install " + filePath;
-        ShellUtils.CommandResult commandResult = ShellUtils.execCmd(command, !isSystemApp(context), true);
+        ShellUtils.CommandResult commandResult = ShellUtils.execCmd(command, !isSystemApp(Utils.context), true);
         return commandResult.successMsg != null && commandResult.successMsg.toLowerCase().contains("success");
     }
 
@@ -151,7 +149,7 @@ public class AppUtils {
             return true;
         }
         if (result.errorMsg != null) {
-            Log.d("isAppRoot", result.errorMsg);
+            LogUtils.d("isAppRoot", result.errorMsg);
         }
         return false;
     }
@@ -672,6 +670,29 @@ public class AppUtils {
     }
 
     /**
+     * 获取所有已安装App信息(排除系统App)
+     * <p>{@link #getBean(PackageManager, PackageInfo)}（名称，图标，包名，包路径，版本号，版本Code，是否系统应用）</p>
+     * <p>依赖上面的getBean方法</p>
+     *
+     * @param context 上下文
+     * @return 所有已安装的AppInfo列表
+     */
+    public static List<AppInfo> getAppsInfoNoSys(Context context) {
+        List<AppInfo> list = new ArrayList<>();
+        PackageManager pm = context.getPackageManager();
+        // 获取系统中安装的所有软件信息
+        List<PackageInfo> installedPackages = pm.getInstalledPackages(0);
+        for (PackageInfo pi : installedPackages) {
+            AppInfo ai = getBean(pm, pi);
+            if (!ai.isSystem){
+                if (ai == null) continue;
+                list.add(ai);
+            }
+        }
+        return list;
+    }
+
+    /**
      * 清除App所有数据
      *
      * @param context  上下文
@@ -690,7 +711,7 @@ public class AppUtils {
     /**
      * 清除App所有数据
      *
-     * @param dirs    目录
+     * @param dirs 目录
      * @return {@code true}: 成功<br>{@code false}: 失败
      */
     public static boolean cleanAppData(File... dirs) {

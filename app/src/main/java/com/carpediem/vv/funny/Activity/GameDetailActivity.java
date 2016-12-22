@@ -5,7 +5,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -18,23 +17,19 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.animation.GlideAnimation;
-import com.bumptech.glide.request.target.SimpleTarget;
 import com.carpediem.vv.funny.Adapter.GameDetailPicAdapter;
 import com.carpediem.vv.funny.DataParserBean.DataParser;
 import com.carpediem.vv.funny.R;
+import com.carpediem.vv.funny.Utils.AppUtils;
 import com.carpediem.vv.funny.Utils.CacheUtils;
-import com.carpediem.vv.funny.Utils.LG;
 import com.carpediem.vv.funny.Utils.Loading.LoadingLayout;
 import com.carpediem.vv.funny.Utils.NetUtils;
-import com.carpediem.vv.funny.Utils.T;
 import com.carpediem.vv.funny.bean.GameBean.GameDetail;
 import com.carpediem.vv.funny.bean.downLoad.FileInfo;
 import com.carpediem.vv.funny.services.DownLoadServices;
@@ -85,9 +80,17 @@ public class GameDetailActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_detail);
+        checkDownload();
         initData();
         initToolBar();
         initView();
+
+    }
+
+    /**
+     * 检查app是否已经安装或者正在下载
+     */
+    private void checkDownload() {
 
     }
 
@@ -188,7 +191,7 @@ public class GameDetailActivity extends AppCompatActivity {
                 Log.i("zz", "onFinish");
                 isPause = true;
                 mBtInstallGame.setText("完 成");
-                Toast.makeText(GameDetailActivity.this, "11Finish", Toast.LENGTH_SHORT).show();
+                AppUtils.installApp(GameDetailActivity.this,DownLoadServices.DOWNLOAD_PATH+mFileInfo.getFileName());
             }
 
             @Override
