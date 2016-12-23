@@ -34,8 +34,6 @@ public class GameDetailPicAdapter extends RecyclerView.Adapter {
 
     /**
      * ItemClick的回调接口
-     *
-     * @author zhy
      */
     public interface OnItemClickLitener {
         void onItemClick(View view, int position);
@@ -100,6 +98,7 @@ public class GameDetailPicAdapter extends RecyclerView.Adapter {
                 @Override
                 public void onClick(View v) {
                     mOnItemClickLitener.onItemClick(((ItemViewHolder) holder).imageView, position);
+
                 }
             });
 

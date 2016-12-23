@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
+              android:id="@+id/rl_select"
               android:layout_height="wrap_content"
-              android:clickable="true"
               android:background="@drawable/ripple_bg"
               android:orientation="vertical">
 
@@ -15,16 +15,25 @@
         android:layout_marginTop="10dp">
 
         <ImageView
+            android:id="@+id/iv_select"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_centerVertical="true"
+            android:background="@drawable/checkbox_selector"
+            />
+
+        <ImageView
             android:id="@+id/app_pic"
             android:layout_width="60dp"
-            android:layout_height="60dp" />
+            android:layout_height="60dp"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/iv_select"/>
 
         <RelativeLayout
-            android:layout_centerVertical="true"
             android:layout_width="wrap_content"
-            android:layout_toRightOf="@id/game_pic"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/app_pic">
 
 
             <LinearLayout
@@ -35,12 +44,13 @@
                 android:orientation="vertical">
 
                 <TextView
+
                     android:id="@+id/app_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:lines="1"
                     android:textColor="@android:color/black"
-                    android:textSize="14sp" />
+                    android:textSize="14sp"/>
 
 
                 <TextView
@@ -48,16 +58,16 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@android:color/black"
-                    android:textSize="12sp" />
+                    android:textSize="12sp"/>
 
                 <TextView
-                    android:id="@+id/app_intro"
+                    android:id="@+id/app_version"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
                     android:lines="1"
                     android:textColor="@android:color/black"
-                    android:textSize="10sp" />
+                    android:textSize="10sp"/>
 
                 <View
                     android:layout_width="match_parent"
@@ -66,15 +76,17 @@
 
                 </View>
             </LinearLayout>
+
             <Button
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
+                android:id="@+id/bt_uninstall"
                 android:layout_width="56dp"
                 android:layout_height="28dp"
-                android:visibility="visible"
-                android:textColor="@color/colorAccent"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
                 android:background="@drawable/app_uninstall_button_bg"
-                android:text="卸载"/>
+                android:text="卸载"
+                android:textColor="@color/colorAccent"
+                android:visibility="visible"/>
         </RelativeLayout>
 
     </RelativeLayout>
