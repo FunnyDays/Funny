@@ -51,13 +51,13 @@ public class DownloadTask {
 
     public  void download() {
         //读取数据库的线程信息
-        List<ThreadInfo> threads = threadDao.getThreads(fileInfo.getUrl());
+        final List<ThreadInfo> threads = threadDao.getThreadsByName(fileInfo.getFileName());
         if (threads.size() == 0) {
             //获得每个线程下载长度
             int length = fileInfo.getLength() / mThreadCount;
             for (int i = 0; i < mThreadCount; i++) {
                 //创建线程信息
-                mThreadInfo = new ThreadInfo(i, fileInfo.getUrl(), length * i, (i + 1) * length - 1, 0);
+                mThreadInfo = new ThreadInfo(fileInfo.getId(),i, fileInfo.getUrl(),fileInfo.getFileName(),fileInfo.getFileIcon(), length * i, (i + 1) * length - 1, 0,0);
                 if (mThreadCount - 1 == i) {
                     mThreadInfo.setEnd(fileInfo.getLength());
                     mFileLength = fileInfo.getLength();
@@ -88,7 +88,7 @@ public class DownloadTask {
             public void run() {
                 Intent intent = new Intent(DownLoadServices.ACTION_UPDATE);
                 intent.putExtra("finished", (int) (finished * 100 / mFileLength));
-                intent.putExtra("id", fileInfo.getId());
+                intent.putExtra("id", threads.get(0).getFileId());
                 context.sendBroadcast(intent);
             }
         }, 1000, 1000);
@@ -165,6 +165,8 @@ public class DownloadTask {
                         //在下载暂停时，保存进度到数据库
                         threadDao.updateThread(threadInfo.getUrl(), threadInfo.getId(), threadInfo.getFinished());
                         if (isPause) {
+                            Intent intent = new Intent(DownLoadServices.ACTION_STOP);
+                            context.sendBroadcast(intent);
                             mTimer.cancel();
                             Log.e("download", "暂停时文件已下载大小:" + finished);
                             return;

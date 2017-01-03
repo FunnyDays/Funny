@@ -1,7 +1,9 @@
 package com.carpediem.vv.funny.Activity;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.IPackageStatsObserver;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageStats;
@@ -45,13 +47,19 @@ public class ManagerAppActivity extends AppCompatActivity {
                 mAdapter.notifyDataSetChanged();
             }
             if (msg.what == 2) {
-                // mLoadingLayout.setStatus(LoadingLayout.Success);//成功
+                mAdapter.notifyDataSetChanged();
+            }
+            if (msg.what == 3) {
+                appsInfo.remove(mRemovePos);
                 mAdapter.notifyDataSetChanged();
             }
         }
     };
     private LoadingLayout mLoadingLayout;
     private ManagerAppAdapter mAdapter;
+    private UninstallReceiver mUninstallReceiver;
+    private String mPackageName;
+    private int mRemovePos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,8 +72,16 @@ public class ManagerAppActivity extends AppCompatActivity {
         initToolbar();
         mRvAppList = (RecyclerView) findViewById(R.id.recyclerView);
         initRecycle();
+        //监听卸载
+        uninstallReceiver();
     }
 
+    private void uninstallReceiver() {
+        mUninstallReceiver = new UninstallReceiver();
+        IntentFilter filter = new IntentFilter(Intent.ACTION_PACKAGE_REMOVED);
+        filter.addDataScheme("package");
+        this.registerReceiver(mUninstallReceiver, filter);
+    }
 
 
     /**
@@ -120,6 +136,8 @@ public class ManagerAppActivity extends AppCompatActivity {
         mAdapter.setOnItemClickLitener(new ManagerAppAdapter.OnItemClickLitener() {
             @Override
             public void onItemClick(View view, int position) {
+                mPackageName = appsInfo.get(position).getPackageName();
+                mRemovePos = position;
                 AppUtils.uninstallApp(ManagerAppActivity.this,appsInfo.get(position).getPackageName(),1);
             }
         });
@@ -153,7 +171,7 @@ public class ManagerAppActivity extends AppCompatActivity {
         Method method = PackageManager.class.getMethod("getPackageSizeInfo",
                 String.class, IPackageStatsObserver.class);
         // 调用 getPackageSizeInfo 方法，需要两个参数：1、需要检测的应用包名；2、回调
-        method.invoke(context.getPackageManager(), pkgName,
+                 method.invoke(context.getPackageManager(), pkgName,
                 new IPackageStatsObserver.Stub() {
                     @Override
                     public void onGetStatsCompleted(PackageStats pStats, boolean succeeded) throws RemoteException {
@@ -171,11 +189,26 @@ public class ManagerAppActivity extends AppCompatActivity {
                     }
                 });
     }
+    private class UninstallReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (mPackageName != null && ("package:" + mPackageName).equals(intent.getDataString())) {
+                Toast.makeText(context, "卸载成功", Toast.LENGTH_SHORT).show();
+                 hanlder.obtainMessage(3).sendToTarget();
+            }
+        }
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Log.e("result",requestCode+"----"+resultCode+"");
+        Log.e("result",requestCode+"----"+resultCode+"-----");
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(mUninstallReceiver);
     }
 }

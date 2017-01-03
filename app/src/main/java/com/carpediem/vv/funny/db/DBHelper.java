@@ -12,7 +12,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String DB_NAME = "download.db";
     public static final int VERSION = 1;
     public static final String SQL_CREATE = "create table thread_info(_id integer primary key autoincrement," +
-            "thread_id integer,url text,start integer,end integer,finished integer,file_length integer)";
+            "file_id integer,thread_id integer,url text,file_name text,file_icon text,start integer,end integer,finished integer,file_length integer,is_pause integer)";
     public static final String SQL_DROP = "drop table if exists thread_info";
 
     private static DBHelper mHelper=null;

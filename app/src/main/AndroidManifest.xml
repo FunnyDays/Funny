@@ -62,7 +62,6 @@
             android:noHistory="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW"/>
-
                 <category android:name="android.intent.category.DEFAULT"/>
                 <category android:name="android.intent.category.BROWSABLE"/>
 
@@ -95,9 +94,7 @@
         <activity android:name=".Activity.imageDetailPagerActivity"/>
         <activity android:name=".Activity.DownLoadActivity">
         </activity>
-
         <service android:name=".services.DownLoadServices"/>
-
         <activity android:name=".Activity.ManagerAppActivity">
         </activity>
     </application>

@@ -142,13 +142,12 @@ public class ProgressButton extends Button {
     // 设置进度信息
     public void setProgress(int progress) {
 
-        if (!isFinish && !isStop) {
+
             mProgress = progress;
             if (isShowProgress) setText(mProgress + " %");
             // 设置背景
             setBackgroundCompat(mProgressDrawableBg);
             invalidate();
-        }
 
     }
 
@@ -205,12 +204,12 @@ public class ProgressButton extends Button {
 
 
     // 初始化状态
-    public void initState() {
+    public void initState(Boolean isStart,Boolean isStop,Boolean isFinish,int mProgress) {
         setBackgroundCompat(mNormalDrawable);
-        isFinish = false;
-        isStop = true;
-        isStart = false;
-        mProgress = 0;
+        this.isFinish = isFinish;
+        this.isStop = isStop;
+        this.isStart = isStart;
+        this.mProgress = mProgress;
     }
 
 

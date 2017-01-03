@@ -1,6 +1,10 @@
 package com.carpediem.vv.funny.Adapter;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -58,7 +62,7 @@ public class ManagerAppAdapter extends RecyclerView.Adapter {
             if (mList.get(position).getAppSize() != null) {
                 ((ItemViewHolder) holder).mAppSize.setText(mList.get(position).getAppSize());
             }
-            ((ItemViewHolder) holder).mAppVersion.setText(String.valueOf(mList.get(position).getVersionName()));
+            ((ItemViewHolder) holder).mAppVersion.setText("版本："+String.valueOf(mList.get(position).getVersionName()));
             //Glide.with(mActivity).load(mList.get(position).getIcon()).into(((ItemViewHolder) holder).mAppIcon);
             ((ItemViewHolder) holder).mAppIcon.setImageDrawable(mList.get(position).getIcon());
             //给每个Item的CheckBox设置tag防止布局错乱
@@ -84,8 +88,6 @@ public class ManagerAppAdapter extends RecyclerView.Adapter {
                     @Override
                     public void onClick(View v) {
                         mOnItemClickLitener.onItemClick(((ItemViewHolder)holder).mBtUninstall,position);
-                        mList.remove(position);
-                        notifyDataSetChanged();
                     }
                 });
             }
@@ -104,7 +106,7 @@ public class ManagerAppAdapter extends RecyclerView.Adapter {
         private final ImageView mAppIcon;
         private final Button mBtUninstall;
         private final LinearLayout mRlSelect;
-        private final ImageView mCheckBox;
+     /*   private final ImageView mCheckBox;*/
 
         public ItemViewHolder(View view) {
             super(view);
@@ -113,8 +115,9 @@ public class ManagerAppAdapter extends RecyclerView.Adapter {
             mAppSize = (TextView) view.findViewById(R.id.app_size);
             mAppVersion = (TextView) view.findViewById(R.id.app_version);
             mBtUninstall = (Button) view.findViewById(R.id.bt_uninstall);
-            mCheckBox = (ImageView) view.findViewById(R.id.iv_select);
+           /* mCheckBox = (ImageView) view.findViewById(R.id.iv_select);*/
             mRlSelect = (LinearLayout) view.findViewById(R.id.rl_select);
         }
     }
+
 }

@@ -1,8 +1,15 @@
 package com.carpediem.vv.funny.Activity;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -10,18 +17,59 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.carpediem.vv.funny.Adapter.DownloadAdapter;
 import com.carpediem.vv.funny.R;
+import com.carpediem.vv.funny.bean.downLoad.FileInfo;
+import com.carpediem.vv.funny.bean.downLoad.ThreadInfo;
+import com.carpediem.vv.funny.db.ThreadDao;
+import com.carpediem.vv.funny.db.ThreadDaoImpl;
+import com.carpediem.vv.funny.services.DownLoadServices;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static com.carpediem.vv.funny.Utils.Utils.context;
 
 public class DownLoadActivity extends AppCompatActivity {
 
     private Toolbar mToolbar;
-    private ListView mListView;
+    private ThreadDao threadDao = null;
+    private RecyclerView mRecyclerView;
+    private ArrayList<ThreadInfo> mThreadInfos = new ArrayList<>();
+    private DownloadAdapter mDownloadAdapter;
+    private TextView mTextView;
+    private List<FileInfo> mFileList=new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_down_load);
         initView();
+        initData();
+
+    }
+
+    private void initData() {
+        //注册广播接收器
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(DownLoadServices.ACTION_UPDATE);
+        filter.addAction(DownLoadServices.ACTION_FINISH);
+        filter.addAction(DownLoadServices.ACTION_STOP);
+        filter.addAction(DownLoadServices.ACTION_START);
+        registerReceiver(broadcast, filter);
+
+        threadDao = new ThreadDaoImpl(this);
+        List<ThreadInfo> infoList = threadDao.getAllThreadsByName();
+        mThreadInfos.addAll(infoList);
+        for (int i = 0; i <mThreadInfos.size(); i++) {
+            FileInfo fileInfo = new FileInfo(i, mThreadInfos.get(i).getUrl(), mThreadInfos.get(i).getName(), mThreadInfos.get(i).getIcon(), 0, 0);
+            mFileList.add(fileInfo);
+        }
+        mDownloadAdapter.notifyDataSetChanged();
+        if (mThreadInfos.size() ==0) {
+            mTextView.setVisibility(View.VISIBLE);
+        }
+        Log.e("weiwei", infoList.toString() + infoList.size());
     }
 
     private void initView() {
@@ -33,13 +81,37 @@ public class DownLoadActivity extends AppCompatActivity {
                 finish();
             }
         });
-        mListView = (ListView) findViewById(R.id.lv_download);
-       /* TextView textView = new TextView(this);
-        textView.setText("没有数据");*/
-        TextView textView = (TextView) findViewById(R.id.empty_list_view);
-        mListView.setEmptyView(textView);
-
+        mRecyclerView = (RecyclerView) findViewById(R.id.lv_download);
+        initRecyclerView();
+        mTextView = (TextView) findViewById(R.id.empty_list_view);
     }
 
+    private void initRecyclerView() {
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mDownloadAdapter = new DownloadAdapter(this, mFileList);
+        mRecyclerView.setAdapter(mDownloadAdapter);
+    }
+    /**
+     * 更新UI的广播接收器
+     */
+    BroadcastReceiver broadcast = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (DownLoadServices.ACTION_UPDATE.equals(intent.getAction())) {
+                int finished = intent.getIntExtra("finished", 0);
+                int id = intent.getIntExtra("id", 0);
+                mDownloadAdapter.updateProgress(id,finished);
+                Log.e("download", "init大小:" + finished);
+            } else if (DownLoadServices.ACTION_FINISH.equals(intent.getAction())) {
+                FileInfo fileInfo = (FileInfo) intent.getSerializableExtra("fileInfo");
+                Toast.makeText(DownLoadActivity.this, fileInfo.getFileName() + "下载完成", Toast.LENGTH_SHORT).show();
+            }
+        }
+    };
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(broadcast);
+    }
 }

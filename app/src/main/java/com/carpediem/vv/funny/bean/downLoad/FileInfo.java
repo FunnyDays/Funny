@@ -10,6 +10,7 @@ public class FileInfo  implements Serializable {
     private int id;
     private String url;
     private String fileName;
+    private String fileIcon;
     private int length;
     private int finished;
 
@@ -19,11 +20,18 @@ public class FileInfo  implements Serializable {
                 "id=" + id +
                 ", url='" + url + '\'' +
                 ", fileName='" + fileName + '\'' +
+                ", fileIcon='" + fileIcon + '\'' +
                 ", length=" + length +
                 ", finished=" + finished +
                 '}';
     }
+    public String getFileIcon() {
+        return fileIcon;
+    }
 
+    public void setFileIcon(String fileIcon) {
+        this.fileIcon = fileIcon;
+    }
     public int getId() {
         return id;
     }
@@ -67,10 +75,11 @@ public class FileInfo  implements Serializable {
     public FileInfo() {
     }
 
-    public FileInfo(int id, String url, String fileName, int length, int finished) {
+    public FileInfo(int id, String url, String fileName, String fileIcon, int length, int finished) {
         this.id = id;
         this.url = url;
         this.fileName = fileName;
+        this.fileIcon = fileIcon;
         this.length = length;
         this.finished = finished;
     }
