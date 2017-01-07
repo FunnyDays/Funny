@@ -1,7 +1,7 @@
 package com.carpediem.vv.funny.bean.downLoad;
 
 /**
- * Created by Administrator on 2016/12/1.
+ * Created by A dministrator on 2016/12/1.
  */
 
 public class ThreadInfo {

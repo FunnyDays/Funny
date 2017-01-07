@@ -17,7 +17,7 @@ public class FileInfo  implements Serializable {
     @Override
     public String toString() {
         return "FileInfo{" +
-                "id=" + id +
+                "id= " + id +
                 ", url='" + url + '\'' +
                 ", fileName='" + fileName + '\'' +
                 ", fileIcon='" + fileIcon + '\'' +
