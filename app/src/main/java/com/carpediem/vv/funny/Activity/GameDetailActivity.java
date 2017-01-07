@@ -28,11 +28,14 @@ import com.carpediem.vv.funny.DataParserBean.DataParser;
 import com.carpediem.vv.funny.R;
 import com.carpediem.vv.funny.Utils.AppUtils;
 import com.carpediem.vv.funny.Utils.CacheUtils;
+import com.carpediem.vv.funny.Utils.FileUtils;
 import com.carpediem.vv.funny.Utils.Loading.LoadingLayout;
 import com.carpediem.vv.funny.Utils.NetUtils;
 import com.carpediem.vv.funny.bean.GameBean.GameDetail;
 
 import com.carpediem.vv.funny.bean.download.FileInfo;
+import com.carpediem.vv.funny.bean.download.ThreadInfo;
+import com.carpediem.vv.funny.db.ThreadDaoImpl;
 import com.carpediem.vv.funny.services.DownLoadServices;
 import com.carpediem.vv.funny.services.DownloadTask;
 import com.carpediem.vv.funny.weight.ProgressButton;
@@ -47,6 +50,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -75,14 +79,12 @@ public class GameDetailActivity extends AppCompatActivity {
     private LoadingLayout mLoadingLayout;
     private ProgressButton mBtInstallGame;
     private String mGameLink;
-    String downloadUrl;
     private Handler mHandler;
-    private int mFileSize;
-    private Integer mFileId;
-    private int mProgress;
     private FileInfo mFileInfo;
-    private boolean mDownloading=false;
-    private String mGameUrl;
+    private boolean mDownloading = false;
+    private String mGameUrl="";
+    private int mDbProgess;
+    private String mFirstGameUrl="";
 
 
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -93,10 +95,15 @@ public class GameDetailActivity extends AppCompatActivity {
         filter.addAction(DownLoadServices.ACTION_UPDATE);
         filter.addAction(DownLoadServices.ACTION_FINISH);
         registerReceiver(broadcast, filter);
+        installOpenGame();
         checkDownload();
         initData();
         initView();
         initToolBar();
+    }
+
+    private void installOpenGame() {
+        List<File> fileList = FileUtils.listFilesInDirWithFilter(DownLoadServices.DOWNLOAD_PATH, "apk", false);
     }
 
     /**
@@ -104,8 +111,13 @@ public class GameDetailActivity extends AppCompatActivity {
      */
     private void checkDownload() {
         //从数据库查出已经下载数据大小
-
-        mGameUrl = CacheUtils.getString(GameDetailActivity.this, gameNameTitle, "");
+        mGameUrl = CacheUtils.getString(GameDetailActivity.this, getIntent().getStringExtra("gameName"),"");
+        Log.e("download",mGameUrl+"ceshi");
+        ThreadDaoImpl threadDao = new ThreadDaoImpl(this);
+        List<ThreadInfo> threads = threadDao.getThreads(mGameUrl);
+        if (threads.size()!=0) {
+            mDbProgess = (int)(threads.get(0).getFinished()*100 / threads.get(0).getLength());
+        }
         DownloadTask downloadTask = DownLoadServices.mTasks.get(mGameUrl);
         if (downloadTask != null) {
             mDownloading = downloadTask.isDownloading();
@@ -161,7 +173,12 @@ public class GameDetailActivity extends AppCompatActivity {
     }
 
     private void initDownload() {
-        if (mDownloading) {
+        if (!mGameUrl.equals("")) {
+            if (mDownloading){
+                mBtInstallGame.initState(true,false,false,mDbProgess);
+            }else {
+                mBtInstallGame.initState(true,true,false,mDbProgess);
+            }
             mBtInstallGame.setTag(1);
         } else {
             mBtInstallGame.setTag(0);
@@ -179,10 +196,10 @@ public class GameDetailActivity extends AppCompatActivity {
                             super.handleMessage(msg);
                             Intent intent = new Intent(GameDetailActivity.this, DownLoadServices.class);
                             if (msg.what == 2) {
-                                String gameUrl = (String) msg.obj;
+                                mFirstGameUrl = (String) msg.obj;
                                 intent.setAction(DownLoadServices.ACTION_START);
-                                CacheUtils.putString(GameDetailActivity.this, gameNameTitle, gameUrl);
-                                mFileInfo = new FileInfo(0, gameUrl, gameDetail.getGameIcon(), gameNameTitle + ".apk", 0, 0);
+                                CacheUtils.putString(GameDetailActivity.this, gameNameTitle, mFirstGameUrl);
+                                mFileInfo = new FileInfo(0, mFirstGameUrl, gameDetail.getGameIcon(), gameNameTitle + ".apk", 0, 0);
                                 intent.putExtra("fileInfo", mFileInfo);
                                 GameDetailActivity.this.startService(intent);
                             }
@@ -204,6 +221,7 @@ public class GameDetailActivity extends AppCompatActivity {
 
             @Override
             public void onStop() {
+                mBtInstallGame.setText("下载");
                 Intent intent = new Intent(GameDetailActivity.this, DownLoadServices.class);
                 intent.setAction(DownLoadServices.ACTION_STOP);
                 String gameUrl = CacheUtils.getString(GameDetailActivity.this, gameNameTitle, "");
@@ -214,6 +232,7 @@ public class GameDetailActivity extends AppCompatActivity {
 
             @Override
             public void onContinue() {
+                mBtInstallGame.setText("准备开始");
                 Intent intent = new Intent(GameDetailActivity.this, DownLoadServices.class);
                 intent.setAction(DownLoadServices.ACTION_START);
                 String gameUrl = CacheUtils.getString(GameDetailActivity.this, gameNameTitle, "");
@@ -439,7 +458,7 @@ public class GameDetailActivity extends AppCompatActivity {
             if (DownLoadServices.ACTION_UPDATE.equals(intent.getAction())) {
                 int finished = intent.getIntExtra("finished", 0);
                 String url = intent.getStringExtra("url");
-                if (mGameUrl.equals(url)){
+                if (mGameUrl.equals(url)||mFirstGameUrl.equals(url)) {
                     mBtInstallGame.setProgress(finished);
                 }
                 Log.e("download", "下载更新url:" + url + "init大小:" + finished);
@@ -447,7 +466,7 @@ public class GameDetailActivity extends AppCompatActivity {
                 FileInfo fileInfo = (FileInfo) intent.getSerializableExtra("fileInfo");
                 //更新进度
                 mBtInstallGame.setProgress(100);
-                Toast.makeText(GameDetailActivity.this, fileInfo.getFileName() + "下载完成", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(GameDetailActivity.this, fileInfo.getFileName() + "下载完成", Toast.LENGTH_SHORT).show();
             }
         }
     };

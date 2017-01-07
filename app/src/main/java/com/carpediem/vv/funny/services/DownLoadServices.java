@@ -95,7 +95,7 @@ public class DownLoadServices extends Service {
                     FileInfo fileInfo = (FileInfo) msg.obj;
                     Log.e("download", "init:" + fileInfo);
                     //启动下载任务
-                    DownloadTask task = new DownloadTask(DownLoadServices.this, fileInfo, 3);
+                    DownloadTask task = new DownloadTask(DownLoadServices.this, fileInfo, 1);
                     task.download();
                     mTasks.put(fileInfo.getUrl(), task);
                     break;
