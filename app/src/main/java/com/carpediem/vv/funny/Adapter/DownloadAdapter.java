@@ -15,8 +15,8 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.carpediem.vv.funny.R;
 import com.carpediem.vv.funny.Utils.AppUtils;
-import com.carpediem.vv.funny.bean.downLoad.FileInfo;
-import com.carpediem.vv.funny.bean.downLoad.ThreadInfo;
+
+import com.carpediem.vv.funny.bean.download.FileInfo;
 import com.carpediem.vv.funny.services.DownLoadServices;
 
 import java.util.List;
@@ -60,7 +60,7 @@ public class DownloadAdapter extends RecyclerView.Adapter {
         if (holder instanceof ItemViewHolder) {
             final FileInfo fileInfo=mFileList.get(position);
             ((ItemViewHolder) holder).mAppName.setText(mFileList.get(position).getFileName());
-            Glide.with(mActivity).load(mFileList.get(position).getFileIcon()).into(((ItemViewHolder) holder).mAppIcon);
+           // Glide.with(mActivity).load(mFileList.get(position).getFileIcon()).into(((ItemViewHolder) holder).mAppIcon);
            /* if (mOnItemClickLitener != null){
                 ((ItemViewHolder)holder).mBtDownload.setOnClickListener(new View.OnClickListener() {
                     @Override

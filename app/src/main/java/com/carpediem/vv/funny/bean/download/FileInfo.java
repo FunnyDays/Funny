@@ -9,6 +9,7 @@ import java.io.Serializable;
 public class FileInfo implements Serializable {
     private int id;
     private String url;
+    private String icon;
     private String fileName;
     private int length;
     private int finished;
@@ -18,6 +19,7 @@ public class FileInfo implements Serializable {
         return "FileInfo{" +
                 "id=" + id +
                 ", url='" + url + '\'' +
+                ", icon='" + icon + '\'' +
                 ", fileName='" + fileName + '\'' +
                 ", length=" + length +
                 ", finished=" + finished +
@@ -39,7 +41,13 @@ public class FileInfo implements Serializable {
     public void setUrl(String url) {
         this.url = url;
     }
+    public String getIcon() {
+        return icon;
+    }
 
+    public void setIcon(String icon) {
+        this.icon = icon;
+    }
     public String getFileName() {
         return fileName;
     }
@@ -67,9 +75,10 @@ public class FileInfo implements Serializable {
     public FileInfo() {
     }
 
-    public FileInfo(int id, String url, String fileName, int length, int finished) {
+    public FileInfo(int id, String url,String icon, String fileName, int length, int finished) {
         this.id = id;
         this.url = url;
+        this.icon = icon;
         this.fileName = fileName;
         this.length = length;
         this.finished = finished;
