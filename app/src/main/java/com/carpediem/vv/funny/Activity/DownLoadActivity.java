@@ -19,11 +19,7 @@ import android.widget.Toast;
 
 import com.carpediem.vv.funny.Adapter.DownloadAdapter;
 import com.carpediem.vv.funny.R;
-import com.carpediem.vv.funny.bean.downLoad.FileInfo;
-import com.carpediem.vv.funny.bean.downLoad.ThreadInfo;
-import com.carpediem.vv.funny.db.ThreadDao;
-import com.carpediem.vv.funny.db.ThreadDaoImpl;
-import com.carpediem.vv.funny.services.DownLoadServices;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,12 +29,9 @@ import static com.carpediem.vv.funny.Utils.Utils.context;
 public class DownLoadActivity extends AppCompatActivity {
 
     private Toolbar mToolbar;
-    private ThreadDao threadDao = null;
     private RecyclerView mRecyclerView;
-    private ArrayList<ThreadInfo> mThreadInfos = new ArrayList<>();
     private DownloadAdapter mDownloadAdapter;
     private TextView mTextView;
-    private List<FileInfo> mFileList=new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,26 +43,25 @@ public class DownLoadActivity extends AppCompatActivity {
     }
 
     private void initData() {
-        //注册广播接收器
+      /*  //注册广播接收器
         IntentFilter filter = new IntentFilter();
         filter.addAction(DownLoadServices.ACTION_UPDATE);
         filter.addAction(DownLoadServices.ACTION_FINISH);
         filter.addAction(DownLoadServices.ACTION_STOP);
         filter.addAction(DownLoadServices.ACTION_START);
         registerReceiver(broadcast, filter);
-
-        threadDao = new ThreadDaoImpl(this);
+*/
+       /* threadDao = new ThreadDaoImpl(this);
         List<ThreadInfo> infoList = threadDao.getAllThreadsByName();
         mThreadInfos.addAll(infoList);
         for (int i = 0; i <mThreadInfos.size(); i++) {
             FileInfo fileInfo = new FileInfo(i, mThreadInfos.get(i).getUrl(), mThreadInfos.get(i).getName(), mThreadInfos.get(i).getIcon(), 0, 0);
             mFileList.add(fileInfo);
-        }
+        }*/
         mDownloadAdapter.notifyDataSetChanged();
-        if (mThreadInfos.size() ==0) {
+       /* if (mThreadInfos.size() ==0) {
             mTextView.setVisibility(View.VISIBLE);
-        }
-        Log.e("weiwei", infoList.toString() + infoList.size());
+        }*/
     }
 
     private void initView() {
@@ -88,12 +80,12 @@ public class DownLoadActivity extends AppCompatActivity {
 
     private void initRecyclerView() {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mDownloadAdapter = new DownloadAdapter(this, mFileList);
+      //  mDownloadAdapter = new DownloadAdapter(this, mFileList);
         mRecyclerView.setAdapter(mDownloadAdapter);
     }
-    /**
+   /* *//**
      * 更新UI的广播接收器
-     */
+     *//*
     BroadcastReceiver broadcast = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -107,11 +99,11 @@ public class DownLoadActivity extends AppCompatActivity {
                 Toast.makeText(DownLoadActivity.this, fileInfo.getFileName() + "下载完成", Toast.LENGTH_SHORT).show();
             }
         }
-    };
+    };*/
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        unregisterReceiver(broadcast);
+       // unregisterReceiver(broadcast);
     }
 }

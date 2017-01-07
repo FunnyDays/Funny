@@ -31,11 +31,7 @@ import com.carpediem.vv.funny.Utils.CacheUtils;
 import com.carpediem.vv.funny.Utils.Loading.LoadingLayout;
 import com.carpediem.vv.funny.Utils.NetUtils;
 import com.carpediem.vv.funny.bean.GameBean.GameDetail;
-import com.carpediem.vv.funny.bean.downLoad.FileInfo;
-import com.carpediem.vv.funny.bean.downLoad.ThreadInfo;
-import com.carpediem.vv.funny.db.ThreadDao;
-import com.carpediem.vv.funny.db.ThreadDaoImpl;
-import com.carpediem.vv.funny.services.DownLoadServices;
+
 import com.carpediem.vv.funny.weight.ProgressButton;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.UMShareAPI;
@@ -76,12 +72,9 @@ public class GameDetailActivity extends AppCompatActivity {
     private LoadingLayout mLoadingLayout;
     private ProgressButton mBtInstallGame;
     private String mGameLink;
-    private FileInfo mFileInfo;
     String downloadUrl;
     private Handler mHandler;
-    private ThreadDao threadDao = null;
     private int mFileSize;
-    private List<ThreadInfo> mInfoList;
     private Integer mFileId;
     private int mProgress;
 
@@ -99,17 +92,6 @@ public class GameDetailActivity extends AppCompatActivity {
      * 检查app是否已经安装或者正在下载
      */
     private void checkDownload() {
-        threadDao = new ThreadDaoImpl(this);
-        mInfoList = threadDao.getAllThreadsByName();
-        mFileSize = mInfoList.size();
-        //查找当前游戏
-        threadDao = new ThreadDaoImpl(this);
-        List<ThreadInfo> gameInfo = threadDao.getThreadsByName(getIntent().getStringExtra("gameName") + ".apk");
-        if (gameInfo.size() == 3) {
-            mFileId = gameInfo.get(0).getFileId();
-            mProgress = (int)((gameInfo.get(0).getFinished() + gameInfo.get(1).getFinished() + gameInfo.get(2).getFinished()) * 100 / gameInfo.get(0).getLength());
-
-        }
 
     }
 
@@ -173,13 +155,8 @@ public class GameDetailActivity extends AppCompatActivity {
     private Boolean isPause = false;
 
     private void initDownload() {
-        //注册广播接收器
-        final IntentFilter filter = new IntentFilter();
-        filter.addAction(DownLoadServices.ACTION_UPDATE);
-        filter.addAction(DownLoadServices.ACTION_FINISH);
-        filter.addAction(DownLoadServices.ACTION_STOP);
-        filter.addAction(DownLoadServices.ACTION_START);
-        registerReceiver(broadcast, filter);
+
+
         mBtInstallGame.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -191,15 +168,15 @@ public class GameDetailActivity extends AppCompatActivity {
                         @Override
                         public void handleMessage(Message msg) {
                             super.handleMessage(msg);
-                            Intent intent = new Intent(GameDetailActivity.this, DownLoadServices.class);
+                           // Intent intent = new Intent(GameDetailActivity.this, DownLoadServices.class);
                             if (msg.what == 2) {
-                                String gameUrl = (String) msg.obj;
+                              /*  String gameUrl = (String) msg.obj;
                                 intent.setAction(DownLoadServices.ACTION_START);
                                 CacheUtils.putString(GameDetailActivity.this, gameNameTitle, gameUrl);
                                 mFileInfo = new FileInfo(mFileSize, gameUrl, gameNameTitle + ".apk", gameDetail.getGameIcon(), 0, 0);
                                 Log.e("zz", "continue" + gameDetail.getGameIcon());
-                                intent.putExtra("fileInfo", mFileInfo);
-                                GameDetailActivity.this.startService(intent);
+                                intent.putExtra("fileInfo", mFileInfo);*/
+                               // GameDetailActivity.this.startService(intent);
                             }
                         }
                     };
@@ -215,70 +192,22 @@ public class GameDetailActivity extends AppCompatActivity {
             @Override
             public void onFinish() {
                 Log.i("zz", "onFinish");
-                isPause = true;
-                mBtInstallGame.setText("完 成");
-                AppUtils.installApp(GameDetailActivity.this, DownLoadServices.DOWNLOAD_PATH + mFileInfo.getFileName());
+
             }
 
             @Override
             public void onStop() {
-                Intent intent = new Intent(GameDetailActivity.this, DownLoadServices.class);
-                Log.i("zz", "stop");
-                intent.setAction(DownLoadServices.ACTION_STOP);
-                String gameLink = CacheUtils.getString(GameDetailActivity.this, gameNameTitle, "");
-                mFileInfo = new FileInfo(mFileSize, gameLink, gameNameTitle + ".apk", gameDetail.getGameIcon(), 0, 0);
-                intent.putExtra("fileInfo", mFileInfo);
-                GameDetailActivity.this.startService(intent);
-                mBtInstallGame.setText("继 续");
+
             }
 
             @Override
             public void onContinue() {
-                mBtInstallGame.setText("开始下载");
-                Intent intent = new Intent(GameDetailActivity.this, DownLoadServices.class);
-                intent.setAction(DownLoadServices.ACTION_START);
-                String gameLink = CacheUtils.getString(GameDetailActivity.this, gameNameTitle, "");
-                mFileInfo = new FileInfo(mFileSize, gameLink, gameNameTitle + ".apk", gameDetail.getGameIcon(), 0, 0);
-                intent.putExtra("fileInfo", mFileInfo);
-                GameDetailActivity.this.startService(intent);
+
             }
         });
     }
 
-    /**
-     * 更新UI的广播接收器
-     */
-    BroadcastReceiver broadcast = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            if (DownLoadServices.ACTION_UPDATE.equals(intent.getAction())) {
-                int finished = intent.getIntExtra("finished", 0);
-                int id = intent.getIntExtra("id", 0);
-                if (mFileId != null) {
-                    if (mFileId == id) {
-                        mBtInstallGame.setProgress(finished);
-                    }
-                } else {
-                    threadDao = new ThreadDaoImpl(GameDetailActivity.this);
-                    List<ThreadInfo> gameInfo = threadDao.getThreadsByName(getIntent().getStringExtra("gameName") + ".apk");
-                    if (gameInfo.size() == 3) {
-                        mFileId = gameInfo.get(0).getFileId();
-                    }
-                }
-                Log.e("download", "init大小:" + finished);
-            } else if (DownLoadServices.ACTION_FINISH.equals(intent.getAction())) {
-                FileInfo fileInfo = (FileInfo) intent.getSerializableExtra("fileInfo");
-                //更新进度
-                mBtInstallGame.initState(false,false,true,mProgress);
-                mBtInstallGame.setProgress(100);
-                Toast.makeText(GameDetailActivity.this, fileInfo.getFileName() + "下载完成", Toast.LENGTH_SHORT).show();
-            } else if (DownLoadServices.ACTION_STOP.equals(intent.getAction())) {
 
-            } else if (DownLoadServices.ACTION_START.equals(intent.getAction())) {
-
-            }
-        }
-    };
 
     /**
      * 空布局
@@ -488,6 +417,6 @@ public class GameDetailActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        unregisterReceiver(broadcast);
+       // unregisterReceiver(broadcast);
     }
 }
