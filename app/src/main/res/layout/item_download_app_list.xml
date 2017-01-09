@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
               android:id="@+id/rl_select"
               android:layout_height="wrap_content"
               android:background="@drawable/ripple_bg"
@@ -22,6 +23,7 @@
             />
 
         <RelativeLayout
+            android:id="@+id/ll_item"
             android:layout_width="wrap_content"
             android:layout_height="60dp"
             android:layout_centerVertical="true"
@@ -39,31 +41,42 @@
                     android:lines="1"
                     android:textColor="@android:color/black"
                     android:textSize="14sp"/>
-                <ProgressBar
-                    android:layout_marginTop="10dp"
-                    style="?android:attr/progressBarStyleHorizontal"
-                    android:layout_marginRight="65dp"
+                <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="60dp"
-                    android:id="@+id/pb_progressbar"/>
-            </LinearLayout>
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1px"
-                android:background="#55000000">
-            </View>
-            <Button
-                android:id="@+id/bt_uninstall"
-                android:layout_width="56dp"
-                android:layout_height="28dp"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:background="@drawable/app_uninstall_button_bg"
-                android:text="下载"
-                android:textColor="@color/colorAccent"
-                android:visibility="visible"/>
-        </RelativeLayout>
+                    android:layout_height="wrap_content">
+                    <com.carpediem.vv.funny.weight.HorizontalProgressBarWithTextProgress
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:padding="5dp"
+                        android:layout_marginRight="60dp"
+                        android:layout_marginTop="20dp"
+                        app:progress_text_color="@color/colorAccent"
+                        app:progress_reach_color="@color/colorPrimaryDark"
+                        app:progress_unreach_color="#553F51B5"
+                        android:id="@+id/pb_progressbar"/>
+                    <Button
+                        android:id="@+id/bt_uninstall"
+                        android:layout_width="56dp"
+                        android:layout_height="28dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:background="@drawable/app_uninstall_button_bg"
+                        android:text="下载"
+                        android:textColor="@color/colorAccent"
+                        android:visibility="visible"/>
 
+                </RelativeLayout>
+            </LinearLayout>
+
+        </RelativeLayout>
+        <View
+            android:layout_below="@id/ll_item"
+            android:layout_width="match_parent"
+            android:layout_marginLeft="70dp"
+            android:layout_height="1px"
+            android:background="#55000000">
+        </View>
     </RelativeLayout>
 
 

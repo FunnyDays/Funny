@@ -37,6 +37,11 @@ public interface ThreadDao {
      * @return
      */
     public List<ThreadInfo> getThreads(String url);
+    /**
+     * 查询文件线程信息
+     * @return
+     */
+    public List<ThreadInfo> getAllThreads();
 
     /**
      * 查询线程信息是否存在

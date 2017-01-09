@@ -18,6 +18,7 @@ import com.carpediem.vv.funny.Utils.AppUtils;
 
 import com.carpediem.vv.funny.bean.download.FileInfo;
 import com.carpediem.vv.funny.services.DownLoadServices;
+import com.carpediem.vv.funny.services.DownloadTask;
 
 import java.util.List;
 
@@ -28,6 +29,7 @@ public class DownloadAdapter extends RecyclerView.Adapter {
     private Activity mActivity;
     private List<FileInfo> mFileList;
     boolean mState = false;
+
 
     public DownloadAdapter(Activity activity, List<FileInfo> list) {
         mActivity = activity;
@@ -57,27 +59,46 @@ public class DownloadAdapter extends RecyclerView.Adapter {
 
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
+        final boolean[] mDownloading = {false};
         if (holder instanceof ItemViewHolder) {
             final FileInfo fileInfo=mFileList.get(position);
             ((ItemViewHolder) holder).mAppName.setText(mFileList.get(position).getFileName());
-           // Glide.with(mActivity).load(mFileList.get(position).getFileIcon()).into(((ItemViewHolder) holder).mAppIcon);
-           /* if (mOnItemClickLitener != null){
+            Glide.with(mActivity).load(mFileList.get(position).getIcon()).into(((ItemViewHolder) holder).mAppIcon);
+            if (mOnItemClickLitener != null){
                 ((ItemViewHolder)holder).mBtDownload.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         mOnItemClickLitener.onItemClick(((ItemViewHolder)holder).mBtDownload,position);
                     }
                 });
-            }*/
+            }
             ((ItemViewHolder) holder).mProgressBar.setMax(100);
-           ((ItemViewHolder) holder).mProgressBar.setProgress(fileInfo.getFinished());
+           ((ItemViewHolder) holder).mProgressBar.setProgress(fileInfo.getLength());
+            DownloadTask downloadTask = DownLoadServices.mTasks.get(mFileList.get(position).getUrl());
+            if (downloadTask != null) {
+                mDownloading[0] = downloadTask.isDownloading();
+                if (mDownloading[0]){
+                    ((ItemViewHolder) holder).mBtDownload.setText("暂停");
+                }
+            }
             ((ItemViewHolder) holder).mBtDownload.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(mActivity, DownLoadServices.class);
-                    intent.setAction(DownLoadServices.ACTION_START);
-                    intent.putExtra("fileInfo",fileInfo);
-                    mActivity.startService(intent);
+                    if (mDownloading[0]){
+                        mDownloading[0] =false;
+                        ((ItemViewHolder) holder).mBtDownload.setText("下载");
+                        Intent intent = new Intent(mActivity, DownLoadServices.class);
+                        intent.setAction(DownLoadServices.ACTION_STOP);
+                        intent.putExtra("fileInfo",fileInfo);
+                        mActivity.startService(intent);
+                    }else {
+                        mDownloading[0] =true;
+                        ((ItemViewHolder) holder).mBtDownload.setText("暂停");
+                        Intent intent = new Intent(mActivity, DownLoadServices.class);
+                        intent.setAction(DownLoadServices.ACTION_START);
+                        intent.putExtra("fileInfo",fileInfo);
+                        mActivity.startService(intent);
+                    }
                 }
             });
         }
@@ -105,9 +126,12 @@ public class DownloadAdapter extends RecyclerView.Adapter {
     /**
      * 更新列表中的进度条
      */
-    public synchronized void updateProgress(int id,int progress){
-        FileInfo fileInfo = mFileList.get(id);
-        fileInfo.setFinished(progress);
+    public synchronized void updateProgress(String url,int progress){
+        for (int i = 0; i < mFileList.size(); i++) {
+            if (mFileList.get(i).getUrl().equals(url)) {
+                mFileList.get(i).setLength(progress);
+            }
+        }
         notifyDataSetChanged();
     }
 

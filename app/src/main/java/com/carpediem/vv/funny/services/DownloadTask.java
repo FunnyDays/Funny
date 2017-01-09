@@ -37,7 +37,7 @@ public class DownloadTask {
     //线程池实现
     public static ExecutorService executorService = Executors.newCachedThreadPool();
 
-    private Timer mTimer = new Timer();
+    private Timer mTimer;
     ThreadInfo mThreadInfo = null;
     private long mFileLength;
 
@@ -51,6 +51,7 @@ public class DownloadTask {
         this.fileInfo = fileInfo;
         this.mThreadCount = mThreadCount;
         threadDao = new ThreadDaoImpl(context);
+        mTimer = new Timer();
     }
 
     public boolean isDownloading(){
@@ -58,6 +59,9 @@ public class DownloadTask {
     }
 
     public void download() {
+        if (mTimer != null) {
+            mTimer.purge();
+        }
         //读取数据库的线程信息
         List<ThreadInfo> threads = threadDao.getThreads(fileInfo.getUrl());
         if (threads.size() == 0) {

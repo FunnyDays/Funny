@@ -66,6 +66,28 @@ public class ThreadDaoImpl implements ThreadDao {
     }
 
     @Override
+    public List<ThreadInfo> getAllThreads() {
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        List<ThreadInfo> threadInfos = new ArrayList<>();
+        Cursor cursor = db.rawQuery("select * from thread_info where thread_id=?", new String[]{"0"});
+        while (cursor.moveToNext()){
+            ThreadInfo threadInfo = new ThreadInfo();
+            threadInfo.setId(cursor.getInt(cursor.getColumnIndex("thread_id")));
+            threadInfo.setUrl(cursor.getString(cursor.getColumnIndex("url")));
+            threadInfo.setIcon(cursor.getString(cursor.getColumnIndex("icon")));
+            threadInfo.setName(cursor.getString(cursor.getColumnIndex("name")));
+            threadInfo.setStart(cursor.getInt(cursor.getColumnIndex("start")));
+            threadInfo.setEnd(cursor.getInt(cursor.getColumnIndex("end")));
+            threadInfo.setFinished(cursor.getInt(cursor.getColumnIndex("finished")));
+            threadInfo.setLength(cursor.getInt(cursor.getColumnIndex("file_length")));
+            threadInfos.add(threadInfo);
+        }
+        cursor.close();
+        db.close();
+        return threadInfos;
+    }
+
+    @Override
     public synchronized boolean isExists(String url, int thread_id) {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         Cursor cursor = db.rawQuery("select * from thread_info where url=? and thread_id=?", new String[]{url,thread_id+""});

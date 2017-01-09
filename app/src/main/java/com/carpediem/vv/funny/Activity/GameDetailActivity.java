@@ -104,6 +104,9 @@ public class GameDetailActivity extends AppCompatActivity {
 
     private void installOpenGame() {
         List<File> fileList = FileUtils.listFilesInDirWithFilter(DownLoadServices.DOWNLOAD_PATH, "apk", false);
+        for (int i = 0; i < fileList.size(); i++) {
+            Log.e("app",fileList.get(i).getName()+"==="+fileList.get(i).length());
+        }
     }
 
     /**
