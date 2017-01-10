@@ -97,6 +97,7 @@
         <service android:name=".services.DownLoadServices"/>
         <activity android:name=".Activity.ManagerAppActivity">
         </activity>
+        <activity android:name=".Activity.MovieDetailActivity"></activity>
     </application>
 
 </manifest>

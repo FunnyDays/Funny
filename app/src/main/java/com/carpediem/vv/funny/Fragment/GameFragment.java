@@ -93,6 +93,7 @@ public class GameFragment extends BaseFragment {
     private Boolean ParserHtml(int page, int action) {
         if (action == STATE_REFRESH) {
             ArrayList<Game> gameArrayList1 = DataParser.getAllGame(page);
+            arrayList.clear();
             arrayList.addAll(gameArrayList1);
         }
         if (action == STATE_MORE) {
@@ -142,7 +143,7 @@ public class GameFragment extends BaseFragment {
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                arrayList.clear();
+               // arrayList.clear();
                 curPage = 1;
                 action = STATE_REFRESH;
                 initData();

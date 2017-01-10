@@ -28,6 +28,7 @@ import com.carpediem.vv.funny.Fragment.AllTabFragment;
 import com.carpediem.vv.funny.Fragment.BooksFragment;
 import com.carpediem.vv.funny.Fragment.DailyFragment;
 import com.carpediem.vv.funny.Fragment.GameFragment;
+import com.carpediem.vv.funny.Fragment.LYMoviesFragment;
 import com.carpediem.vv.funny.Fragment.MusicFragment;
 import com.carpediem.vv.funny.Fragment.UserFragment;
 import com.carpediem.vv.funny.Fragment.VideoFragment;
@@ -176,7 +177,7 @@ public class MainActivity extends AppCompatActivity {
         fragments.add(AllTabFragment.newInstance("首页"));
         fragments.add( BooksFragment.newInstance("书籍"));
         fragments.add( MusicFragment.newInstance("音乐"));
-        fragments.add( VideoFragment.newInstance("电影"));
+        fragments.add( new LYMoviesFragment());
         fragments.add( UserFragment.newInstance());
         adapter = new MainContentVPAdapter(supportFragmentManager, fragments);
         return fragments;
