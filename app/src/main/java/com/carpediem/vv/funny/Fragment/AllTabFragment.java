@@ -38,6 +38,7 @@ import com.carpediem.vv.funny.Adapter.SearchAdapter;
 import com.carpediem.vv.funny.Adapter.TabsViewPagerAdapter;
 import com.carpediem.vv.funny.Base.BaseFragment;
 import com.carpediem.vv.funny.R;
+import com.carpediem.vv.funny.Utils.DeviceUtils;
 import com.carpediem.vv.funny.Utils.IntentUtils;
 import com.carpediem.vv.funny.bean.SearchBean;
 
@@ -184,17 +185,22 @@ public class AllTabFragment extends BaseFragment {
             public void onClick(View view) {
                 InputMethodManager imm = (InputMethodManager) mActivity.getSystemService(mActivity.INPUT_METHOD_SERVICE);
                 imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
-                Animator animator = startAnimationCir(searchView);
-                if (animator!=null){
-                    animator.addListener(new AnimatorListenerAdapter() {
-                        @Override
-                        public void onAnimationEnd(Animator animation) {
-                            popWindow.dismiss();
-                        }
-                    });
+                if ((DeviceUtils.getSDKVersion()>=21)) {
+                    Animator animator = startAnimationCir(searchView);
+                    if (animator!=null){
+                        animator.addListener(new AnimatorListenerAdapter() {
+                            @Override
+                            public void onAnimationEnd(Animator animation) {
+                                popWindow.dismiss();
+                            }
+                        });
+                    }else {
+                        popWindow.dismiss();
+                    }
                 }else {
                     popWindow.dismiss();
                 }
+
             }
         });
         mIbSearch.setOnClickListener(new View.OnClickListener() {

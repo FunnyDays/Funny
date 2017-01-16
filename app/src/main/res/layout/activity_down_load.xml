@@ -12,11 +12,11 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <android.support.v7.widget.RecyclerView
+        <ListView
             android:id="@+id/lv_download"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-        </android.support.v7.widget.RecyclerView>
+        </ListView>
         <TextView
             android:visibility="invisible"
              android:id="@+id/empty_list_view"

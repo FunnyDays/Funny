@@ -8,6 +8,8 @@ import com.umeng.socialize.Config;
 import com.umeng.socialize.PlatformConfig;
 import com.umeng.socialize.UMShareAPI;
 
+import org.xutils.x;
+
 /**
  * Created by Administrator on 2016/11/28.
  */
@@ -29,6 +31,8 @@ public class App extends Application {
         UMShareAPI.get(this);
         //空布局初始化
         initLoadView();
+        //下载初始化
+        x.Ext.init(this);
     }
     private void initLoadView() {
         LoadingLayout.getConfig()

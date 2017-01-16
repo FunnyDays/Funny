@@ -31,6 +31,7 @@ import java.util.List;
  * </pre>
  */
 public class FileUtils {
+    public static final String fileSavePath = "/sdcard/Funny/";
 
     private FileUtils() {
         throw new UnsupportedOperationException("u can't instantiate me...");

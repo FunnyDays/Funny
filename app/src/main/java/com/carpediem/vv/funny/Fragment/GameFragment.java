@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 
+import com.carpediem.vv.funny.Activity.Game10Activity;
 import com.carpediem.vv.funny.Activity.GameDetailActivity;
 import com.carpediem.vv.funny.Activity.MainActivity;
 import com.carpediem.vv.funny.Adapter.GameAdapter;
@@ -159,7 +160,7 @@ public class GameFragment extends BaseFragment {
         mAdapter.setOnItemClickLitener(new GameAdapter.OnItemClickLitener() {
             @Override
             public void onItemClick(View view, int position) {
-                Intent intent = new Intent(mActivity, GameDetailActivity.class);
+                Intent intent = new Intent(mActivity, Game10Activity.class);
                 intent.putExtra("gameLink", arrayList.get(position).getGameDetailLink());
                 intent.putExtra("gameStar", arrayList.get(position).getGameStar());
                 intent.putExtra("gameName", arrayList.get(position).getGameName());

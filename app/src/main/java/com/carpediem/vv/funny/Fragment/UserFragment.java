@@ -5,6 +5,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import com.carpediem.vv.funny.Activity.ManagerAppActivity;
+
 import com.carpediem.vv.funny.R;
 import com.carpediem.vv.funny.Utils.IntentUtils;
 

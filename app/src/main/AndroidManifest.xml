@@ -91,6 +91,7 @@
             android:name=".Activity.PlayVideoActivity"
             android:screenOrientation="portrait"/>
         <activity android:name=".Activity.GameDetailActivity"/>
+        <activity android:name=".Activity.Game10Activity"/>
         <activity android:name=".Activity.imageDetailPagerActivity"/>
         <activity android:name=".Activity.DownLoadActivity">
         </activity>

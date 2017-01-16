@@ -59,9 +59,6 @@ public class DownloadTask {
     }
 
     public void download() {
-        if (mTimer != null) {
-            mTimer.purge();
-        }
         //读取数据库的线程信息
         List<ThreadInfo> threads = threadDao.getThreads(fileInfo.getUrl());
         if (threads.size() == 0) {
@@ -99,7 +96,7 @@ public class DownloadTask {
             mDownloadThreads.add(downloadThread);
         }
         //启动定时任务
-        mTimer.schedule(new TimerTask() {
+       /* mTimer.schedule(new TimerTask() {
             @Override
             public void run() {
                 Intent intent = new Intent(DownLoadServices.ACTION_UPDATE);
@@ -107,7 +104,7 @@ public class DownloadTask {
                 intent.putExtra("url", fileInfo.getUrl());
                 context.sendBroadcast(intent);
             }
-        }, 1000, 1000);
+        }, 1000, 1000);*/
 
     }
 
@@ -124,7 +121,7 @@ public class DownloadTask {
         }
         if (allThreads) {
             //取消定时器
-            mTimer.cancel();
+          //  mTimer.cancel();
             //删除线程信息
             threadDao.deleteThread(fileInfo.getUrl());
             //发送广播通知UI下载完成
@@ -155,6 +152,7 @@ public class DownloadTask {
                 URL url = new URL(threadInfo.getUrl());
                 urlConnection = (HttpURLConnection) url.openConnection();
                 urlConnection.setConnectTimeout(3000);
+
                 urlConnection.setRequestMethod("GET");
                 //下载位置
                 long start = threadInfo.getStart() + threadInfo.getFinished();
@@ -182,10 +180,15 @@ public class DownloadTask {
                         threadDao.updateThread(threadInfo.getUrl(), threadInfo.getId(), threadInfo.getFinished());
                         if (isPause) {
                             state=PAUSE;
-                            mTimer.cancel();
+                           // mTimer.cancel();
                             Log.e("download", "暂停时文件已下载大小:" + finished);
                             return;
                         }
+                        //发送广播更新UI
+                        Intent intent = new Intent(DownLoadServices.ACTION_UPDATE);
+                        intent.putExtra("finished", (int) (finished * 100 / mFileLength));
+                        intent.putExtra("url", fileInfo.getUrl());
+                        context.sendBroadcast(intent);
                     }
                     //标识线程是否执行完毕
                     isFinished = true;

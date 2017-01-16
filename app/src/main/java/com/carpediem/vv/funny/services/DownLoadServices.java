@@ -59,6 +59,7 @@ public class DownLoadServices extends Service {
                     Log.e("download", "stop" + mfileInfo.toString());
                     //从集合中取出下载任务
                     DownloadTask task = mTasks.get(mfileInfo.getUrl());
+                    Log.e("download", "stoptask是否存在" + task);
                     if (task != null) {
                         task.isPause = true;
                     }
