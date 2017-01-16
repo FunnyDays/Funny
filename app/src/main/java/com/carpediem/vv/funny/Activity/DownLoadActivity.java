@@ -18,11 +18,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.carpediem.vv.funny.Adapter.DownloadAdapter;
 import com.carpediem.vv.funny.R;
 import com.carpediem.vv.funny.bean.download.FileInfo;
@@ -128,6 +130,7 @@ public class DownLoadActivity extends AppCompatActivity {
                 try {
                     downloadManager.startDownload(
                             downloadInfo.getUrl(),
+                            downloadInfo.getGamePicUrl(),
                             downloadInfo.getLabel(),
                             downloadInfo.getFileSavePath(),
                             downloadInfo.isAutoResume(),
@@ -144,6 +147,8 @@ public class DownLoadActivity extends AppCompatActivity {
     public class DownloadItemViewHolder extends DownloadViewHolder {
         @ViewInject(R.id.app_name)
         TextView label;
+        @ViewInject(R.id.app_pic)
+        ImageView gamePic;
         @ViewInject(R.id.download_state)
         TextView state;
         @ViewInject(R.id.pb_progressbar)
@@ -169,6 +174,7 @@ public class DownLoadActivity extends AppCompatActivity {
                     try {
                         downloadManager.startDownload(
                                 downloadInfo.getUrl(),
+                                downloadInfo.getGamePicUrl(),
                                 downloadInfo.getLabel(),
                                 downloadInfo.getFileSavePath(),
                                 downloadInfo.isAutoResume(),
@@ -242,6 +248,7 @@ public class DownLoadActivity extends AppCompatActivity {
         public void refresh() {
             label.setText(downloadInfo.getLabel());
             state.setText(downloadInfo.getState().toString());
+            Glide.with(DownLoadActivity.this).load(downloadInfo.getGamePicUrl()).into(gamePic);
             progressBar.setProgress(downloadInfo.getProgress());
             stopBtn.setVisibility(View.VISIBLE);
             stopBtn.setText(x.app().getString(R.string.stop));
@@ -256,7 +263,7 @@ public class DownLoadActivity extends AppCompatActivity {
                     stopBtn.setText(x.app().getString(R.string.start));
                     break;
                 case FINISHED:
-                    stopBtn.setVisibility(View.INVISIBLE);
+                    stopBtn.setText("完成");
                     break;
                 default:
                     stopBtn.setText(x.app().getString(R.string.start));

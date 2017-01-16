@@ -23,6 +23,9 @@ public class DownloadInfo {
     @Column(name = "url")
     private String url;
 
+    @Column(name = "gamePicUrl")
+    private String gamePicUrl;
+
     @Column(name = "label")
     private String label;
 
@@ -64,7 +67,13 @@ public class DownloadInfo {
     public void setUrl(String url) {
         this.url = url;
     }
+    public String getGamePicUrl() {
+        return gamePicUrl;
+    }
 
+    public void setGamePicUrl(String gamePicUrl) {
+        this.gamePicUrl = gamePicUrl;
+    }
     public String getLabel() {
         return label;
     }

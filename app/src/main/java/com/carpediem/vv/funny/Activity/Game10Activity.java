@@ -200,7 +200,7 @@ public class Game10Activity extends AppCompatActivity {
             if (mDownloadInfo.getState().value() < DownloadState.FINISHED.value()){
                 try {
                     downloadManager.startDownload(
-                            mDownloadInfo.getUrl(), mDownloadInfo.getLabel(),
+                            mDownloadInfo.getUrl(), mDownloadInfo.getGamePicUrl(), mDownloadInfo.getLabel(),
                             mDownloadInfo.getFileSavePath(), mDownloadInfo.isAutoResume(), mDownloadInfo.isAutoRename(), mViewHolder);
                 } catch (DbException e) {
                     e.printStackTrace();
@@ -236,6 +236,8 @@ public class Game10Activity extends AppCompatActivity {
                                 mFirstGameUrl = (String) msg.obj;
                                 DownloadInfo downloadInfo = new DownloadInfo();
                                 downloadInfo.setUrl(mFirstGameUrl);
+                                downloadInfo.setGamePicUrl(gameDetail.getGameIcon());
+                                Log.e("wei", "gameDetail.getGameIcon()"+gameDetail.getGameIcon());
                                 downloadInfo.setAutoResume(true);
                                 downloadInfo.setAutoRename(false);
                                 downloadInfo.setLabel(gameNameTitle);
@@ -273,6 +275,7 @@ public class Game10Activity extends AppCompatActivity {
                     try {
                         downloadManager.startDownload(
                                 downloadInfo.getUrl(),
+                                downloadInfo.getGamePicUrl(),
                                 downloadInfo.getLabel(),
                                 downloadInfo.getFileSavePath(),
                                 downloadInfo.isAutoResume(),
