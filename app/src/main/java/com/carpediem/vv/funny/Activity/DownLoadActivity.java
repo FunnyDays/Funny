@@ -26,6 +26,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.carpediem.vv.funny.Adapter.DownloadAdapter;
+import com.carpediem.vv.funny.App;
 import com.carpediem.vv.funny.R;
 import com.carpediem.vv.funny.bean.download.FileInfo;
 import com.carpediem.vv.funny.bean.download.ThreadInfo;
@@ -53,9 +54,7 @@ import static com.carpediem.vv.funny.Utils.Utils.context;
 public class DownLoadActivity extends AppCompatActivity {
 
     private Toolbar mToolbar;
-    private DownloadAdapter mDownloadAdapter;
     private TextView mTextView;
-    private List<FileInfo> mFileList = new ArrayList<>();
     private ListView mListView;
     private DownloadManager downloadManager;
     private DownloadListAdapter downloadListAdapter;
@@ -248,7 +247,7 @@ public class DownLoadActivity extends AppCompatActivity {
         public void refresh() {
             label.setText(downloadInfo.getLabel());
             state.setText(downloadInfo.getState().toString());
-            Glide.with(DownLoadActivity.this).load(downloadInfo.getGamePicUrl()).into(gamePic);
+            Glide.with(getApplicationContext()).load(downloadInfo.getGamePicUrl()).into(gamePic);
             progressBar.setProgress(downloadInfo.getProgress());
             stopBtn.setVisibility(View.VISIBLE);
             stopBtn.setText(x.app().getString(R.string.stop));
