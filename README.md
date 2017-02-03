@@ -1,11 +1,11 @@
 # 趣分享
-###想按照知乎的设计交互开发的一个简单的程序。有些地方仿的还是有点走样了。基本上都是Metrial Design 5.0的控件风格。
+###想按照知乎的设计交互开发的软件。使用Metrial Design 5.0的控件风格。
 
 --------
-####首页展示的搞笑GIF
-
+####首页展示的搞笑GIF，视频，游戏
 <br>
-![image](https://github.com/FunnyDays/Funny/blob/master/pic/1.jpg) 
+![image](https://github.com/FunnyDays/Funny/blob/master/pic/gif1.PNG) 
+![image](https://github.com/FunnyDays/Funny/blob/master/pic/shipin1.PNG) 
 <br>
 
 ----------
