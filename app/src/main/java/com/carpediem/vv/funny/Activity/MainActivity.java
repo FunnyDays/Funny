@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
     private PermissionsChecker mPermissionsChecker; // 权限检测器
     // 所需的全部权限
     static final String[] PERMISSIONS = new String[]{
-            Manifest.permission.READ_PHONE_STATE
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
 
     };
 
@@ -72,7 +72,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         //防止布局被软键盘扰乱
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE);
+        //阻止截屏
+        //getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE);
         Bmob.initialize(this, "c4e9104738e2747a6c63855e7d2a9b7d");
         setContentView(R.layout.activity_main);
         mPermissionsChecker = new PermissionsChecker(this);

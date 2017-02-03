@@ -27,6 +27,9 @@ android {
             }
         }
     }
+    dexOptions {
+        incremental false
+    }
 }
 
 dependencies {
@@ -47,3 +50,4 @@ dependencies {
 configurations{
     all*.exclude group: 'com.squareup.okhttp3' ,module: 'okhttp'
 }
+

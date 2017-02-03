@@ -100,7 +100,7 @@ public class AllTabFragment extends BaseFragment {
         viewPager = (ViewPager) view.findViewById(R.id.viewpager);
         //viewpager适配器
         getFragments();
-        mAdapter.addFragment(fragments.get(0), "视频");
+        mAdapter.addFragment(fragments.get(0), "GIF");
         mAdapter.addFragment(fragments.get(1), "视频");
         mAdapter.addFragment(fragments.get(2), "游戏");
         viewPager.setAdapter(mAdapter);
@@ -110,8 +110,8 @@ public class AllTabFragment extends BaseFragment {
     }
     private ArrayList<BaseFragment> getFragments() {
         fragments = new ArrayList<>();
-        fragments.add(MovieFragment.newInstance("视频"));
-        fragments.add(MovieFragment.newInstance("视频"));
+        fragments.add(DailyFragment.newInstance("GIF"));
+        fragments.add(VideoFragment.newInstance("视频"));
         fragments.add(GameFragment.newInstance("游戏"));
         mAdapter = new TabsViewPagerAdapter(((MainActivity) mActivity).getSupportFragmentManager());
         return fragments;
