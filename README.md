@@ -6,6 +6,7 @@
 <br>
 ![image](https://github.com/FunnyDays/Funny/blob/master/pic/gif1.PNG) 
 ![image](https://github.com/FunnyDays/Funny/blob/master/pic/shipin1.PNG) 
+![image](https://github.com/FunnyDays/Funny/blob/master/pic/youxi1.PNG) 
 <br>
 
 ----------
