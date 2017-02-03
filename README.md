@@ -5,7 +5,7 @@
 ####首页展示的搞笑GIF
 
 <br>
-![image](https://github.com/carpediemvv/Funny/blob/master/app/src/main/assets/daily.gif) 
+![image](https://github.com/FunnyDays/Funny/blob/master/pic/1.jpg) 
 <br>
 
 ----------
