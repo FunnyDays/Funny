@@ -1,6 +1,6 @@
 # 趣分享
-###想按照知乎的设计交互开发的软件。使用Metrial Design 5.0的控件风格。大小4.7M
-下载地址：[点我下载apk](https://github.com/FunnyDays/Funny/blob/master/apk/app.apk "马上下载")  
+###想按照知乎的设计交互开发的软件。使用Metrial Design 5.0的控件风格。大小4.5M
+下载地址：[点我下载apk](http://bmob-cdn-6505.b0.upaiyun.com/2017/02/08/8c7dcd8c407bc8638017684ca6ba94e6.apk "马上下载")  
 --------
 ####首页展示的搞笑GIF，视频，游戏
 <br>
